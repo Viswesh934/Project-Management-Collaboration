@@ -1,46 +1,18 @@
+import React, { useState } from 'react';;
+import OrganizationSignup from './OrganizationSignup';
+import MemberSignup from './MemberSignup';      
+import ToggleSwitch from './ToggleSwith';
 
-
-
-import React, { useState } from 'react';
-import axios from 'axios';
-import MemberSignupForm from './MemberSignup';
-import LoginForm from './MemberLogin';
-
-const SignupForm = () => {
-  const [toggle, setToggle] = useState(false);
-  const handleToggle = () => {
-    setToggle(!toggle);
-  };
+const Signup = () => {
 
   return (
     <div className="max-w-md mx-auto">
-      <div>
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          Toggle
-        </label>
-        <input
-          type="checkbox"
-          checked={toggle}
-          onChange={handleToggle}
-          className="mr-2"
-        />
-        {toggle ? (
-          <div>
-            
-            <div>
-                <LoginForm />
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div>
-                <MemberSignupForm />
-            </div>
-          </div>
-        )}
-      </div>
+      <ToggleSwitch
+        component1={<OrganizationSignup />}
+        component2={<MemberSignup/>}
+      />
     </div>
   );
 };
 
-export default SignupForm;
+export default Signup;

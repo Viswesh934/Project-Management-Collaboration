@@ -1,26 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-
-
-const MemberLogin = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+const OrganizationLogin = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/login', formData);
+      const response = await axios.post('http://localhost:3000/org/login', { email, password });
       console.log(response.data); // Handle success response
     } catch (error) {
-      console.error('Error logging in:', error); // Handle error
+      console.error('Error:', error); // Handle error
     }
   };
 
@@ -29,14 +20,13 @@ const MemberLogin = () => {
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-            Email
+            Organization Email
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
             required
           />
@@ -48,9 +38,8 @@ const MemberLogin = () => {
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             required
           />
@@ -68,4 +57,4 @@ const MemberLogin = () => {
   );
 };
 
-export default MemberLogin;
+export default OrganizationLogin;
