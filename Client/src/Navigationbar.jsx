@@ -32,6 +32,16 @@ const NavigationBar = () => {
             Resources
           </Link>
         </div>
+        <div className="mr-4">
+          <Link to="/login" className="text-gray-800 hover:text-gray-700 font-bold">
+            Login
+          </Link>
+        </div>
+        <div className="mr-4">
+          <Link to="/signup" className="text-gray-800 hover:text-gray-700 font-bold">
+            Signup
+          </Link>
+        </div>
         <div>
           {isLoggedIn ? (
             <div className="relative">

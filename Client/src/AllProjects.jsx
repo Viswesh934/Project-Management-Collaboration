@@ -15,7 +15,9 @@ const Card = (props) => (
     <div className="cards-container">
       {
         props.cards.map((card) => (
+          
           <Card title={ card.title }
+            key={ card.id }
             content={ card.description }
             imgUrl={ card.image } />
         ))

@@ -1,22 +1,16 @@
+import React, { useState } from "react";
+import axios from "axios";
 
-
-
-import React, { useState } from 'react';
-import axios from 'axios';
-import MemberBenefits from './MemberBenefits';
-import LoginForm from './memberLogin';
-
-const SignupForm = () => {
+const MemberSignupForm = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    gender: '',
-    skills: '',
-    githubUsername: ''
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    gender: "",
+    skills: "",
+    githubUsername: "",
   });
-  const [toggle, setToggle] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,47 +20,27 @@ const SignupForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/signup', formData);
+      const response = await axios.post(
+        "http://localhost:3000/signup",
+        formData
+      );
       console.log(response.data); // Handle success response
     } catch (error) {
-      console.error('Error submitting form:', error); // Handle error
+      console.error("Error submitting form:", error); // Handle error
     }
-  };
-
-  const handleToggle = () => {
-    setToggle(!toggle);
   };
 
   return (
     <div className="max-w-md mx-auto">
-      <div>
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          Toggle
-        </label>
-        <input
-          type="checkbox"
-          checked={toggle}
-          onChange={handleToggle}
-          className="mr-2"
-        />
-        {toggle ? (
-          <div>
-            
-            <div>
-                <LoginForm />
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div>
-                <MemberBenefits />
-            </div>
-          </div>
-        )}
-      </div>
-      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      >
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="name"
+          >
             Name
           </label>
           <input
@@ -80,7 +54,10 @@ const SignupForm = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="email"
+          >
             Email
           </label>
           <input
@@ -94,7 +71,10 @@ const SignupForm = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="password"
+          >
             Password
           </label>
           <input
@@ -108,7 +88,10 @@ const SignupForm = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirmPassword">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="confirmPassword"
+          >
             Confirm Password
           </label>
           <input
@@ -122,7 +105,10 @@ const SignupForm = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="gender">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="gender"
+          >
             Gender
           </label>
           <input
@@ -135,7 +121,10 @@ const SignupForm = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="skills">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="skills"
+          >
             Skills (comma-separated)
           </label>
           <input
@@ -148,7 +137,10 @@ const SignupForm = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="githubUsername">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="githubUsername"
+          >
             GitHub Username
           </label>
           <input
@@ -173,4 +165,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+export default MemberSignupForm;

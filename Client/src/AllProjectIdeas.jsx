@@ -16,6 +16,7 @@ const Card = (props) => (
       {
         props.cards.map((card) => (
           <Card title={ card.title }
+            key={ card.id }
             content={ card.description }
             imgUrl={ card.image } />
         ))
