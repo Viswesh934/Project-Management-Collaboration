@@ -4,19 +4,25 @@ import viteLogo from '/vite.svg';
 import './App.css';
 import cors from 'cors';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './ologin'; // Assuming ologin is a component
-import Signup from './osignup'; // Assuming osignup is a component
+import Login from './Login'; // Assuming ologin is a component
+import SignUp from './SignUp';
+
+import HomePage from './HomePage'; 
 
 const App = () => {
   return (
-    <Router>
+    
       <div>
         <Routes>
-          <Route exact path="/" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route exact path="/" element={
+            <div>    
+          <HomePage />
+          </div>
+          } />
+          <Route exact path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </div>
-    </Router>
   );
 };
 
