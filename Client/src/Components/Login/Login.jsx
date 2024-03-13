@@ -1,7 +1,7 @@
 import React, { useState } from 'react';;
 import OrganizationLogin from './OrganizationLogin';   
 import MemberLogin from './MemberLogin';
-import ToggleSwitch from './ToggleSwith';
+import ToggleSwitch from '../ToggleSwith';
 
 const Login = () => {
 

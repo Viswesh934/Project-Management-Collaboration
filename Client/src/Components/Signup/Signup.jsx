@@ -1,7 +1,7 @@
 import React, { useState } from 'react';;
 import OrganizationSignup from './OrganizationSignup';
 import MemberSignup from './MemberSignup';      
-import ToggleSwitch from './ToggleSwith';
+import ToggleSwitch from '../ToggleSwith';
 
 const Signup = () => {
 
