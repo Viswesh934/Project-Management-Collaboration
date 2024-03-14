@@ -19,7 +19,7 @@ const MemberLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/login', formData);
+      const response = await axios.post('http://localhost:3000/mem/login', formData);
       console.log(response.data);
     } catch (error) {
       console.error('Error logging in:', error); // Handle error

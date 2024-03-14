@@ -21,7 +21,7 @@ const MemberSignup = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/signup",
+        "http://localhost:3000/mem/signup",
         formData
       );
       console.log(response.data); // Handle success response

@@ -5,6 +5,7 @@ import DocsSummarizer from './DocsSummarizer';
 import NewsFeed from './NewsFeed';
 import CareerAdvice from './CareerAdvice';
 import SampleProjectTemplates from './SampleProjectTemplates';
+import NavigationBar from '../Homepage/Navigationbar';
 
 const ResourcesPage = () => {
   const [selectedSection, setSelectedSection] = useState('docs');
@@ -23,10 +24,14 @@ const ResourcesPage = () => {
   };
 
   return (
-    <div className="flex">
+    <div>
+      <NavigationBar />
+      <div className="flex">
       <Sidebar onSelect={setSelectedSection} selected={selectedSection} />
       {renderSection()}
     </div>
+    </div>
+    
   );
 };
 

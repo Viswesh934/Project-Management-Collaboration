@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import NavigationBar from "../Homepage/Navigationbar";
 const ContactUs = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -27,6 +29,8 @@ const ContactUs = () => {
   };
   return (
     <div>
+      <NavigationBar />
+      <div>
       <header className="bg-white border-b border-gray-200 shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <h1 className="text-4xl font-bold text-gray-800">Contact Us</h1>
@@ -103,6 +107,7 @@ const ContactUs = () => {
           </form>
         </section>
       </main>
+    </div>
     </div>
   );
 };
