@@ -50,7 +50,6 @@ const memberLogin = async (req, res, next) => {
             const auth = await comparePassword(password, user);
             if (auth) {
                 const token = await createToken(user?._id);
-                console.log(token);
                 res.cookie('jwt',  token, { maxAge: expirydate });
                 res.status(200).send('login successful');
             } else {

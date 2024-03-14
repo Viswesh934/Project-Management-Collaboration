@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Logout from './Logout';
 
 
 
 const MemberLogin = () => {
+  axios.defaults.withCredentials = true;
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -18,7 +20,7 @@ const MemberLogin = () => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3000/login', formData);
-      console.log(response.data); // Handle success response
+      console.log(response.data);
     } catch (error) {
       console.error('Error logging in:', error); // Handle error
     }
@@ -63,7 +65,9 @@ const MemberLogin = () => {
             Log In
           </button>
         </div>
+        
       </form>
+      <Logout />
     </div>
   );
 };

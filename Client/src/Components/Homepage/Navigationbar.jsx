@@ -23,7 +23,7 @@ const NavigationBar = () => {
           </Link>
         </div>
         <div className="mr-4">
-          <Link to="/contact-us" className="text-gray-800 hover:text-gray-700 font-bold">
+          <Link to="/contactus" className="text-gray-800 hover:text-gray-700 font-bold">
             Contact Us
           </Link>
         </div>
