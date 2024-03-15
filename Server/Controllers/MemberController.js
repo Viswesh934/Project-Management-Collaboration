@@ -69,8 +69,39 @@ const memberLogout = async (req, res) => {
     res.status(200).send('logged out');
 };
 
+const checkAuthenticated = async (req, res, next) => {
+    const token = req?.cookies?.jwt;
+    if (!token) {
+        return res.send('not authenticated');
+    }
+    try {
+        const user1 = jwt.verify(token, 'jab');
+        req.user = user1;
+        next();
+    } catch (error) {
+        res.send('not authenticated');
+    }
+};
+
+const checkNotAuthenticated = async (req, res, next) => {
+    const token = req?.cookies?.jwt;
+    if (token) {
+        try {
+            const user1 = jwt.verify(token, 'jab');
+            req.user = user1;
+            return res.send('already authenticated');
+        } catch (error) {
+            next();
+        }
+    } else {
+        next();
+    }
+};
+
 module.exports = {
     memberSignup,
     memberLogin,
-    memberLogout
+    memberLogout,
+    checkAuthenticated,
+    checkNotAuthenticated
 }

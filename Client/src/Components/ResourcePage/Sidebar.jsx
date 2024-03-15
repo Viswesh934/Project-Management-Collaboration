@@ -10,7 +10,7 @@ const Sidebar = ({ onSelect, selected }) => {
       <ul className="flex-1 overflow-y-auto">
         <li onClick={() => onSelect('docs')} className={`p-4 cursor-pointer ${selected === 'docs' ? 'bg-gray-700' : ''}`}>Docs Summarizer</li>
         <li onClick={() => onSelect('news')} className={`p-4 cursor-pointer ${selected === 'news' ? 'bg-gray-700' : ''}`}>News Feed</li>
-        <li onClick={() => onSelect('careeradvice')} className={`p-4 cursor-pointer ${selected === 'career advice' ? 'bg-gray-700' : ''}`}>Career Advice</li>
+        <li onClick={() => onSelect('careeradvice')} className={`p-4 cursor-pointer ${selected === 'careeradvice' ? 'bg-gray-700' : ''}`}>Career Advice</li>
         <li onClick={() => onSelect('templates')} className={`p-4 cursor-pointer ${selected === 'templates' ? 'bg-gray-700' : ''}`}>Sample Project Templates</li>
       </ul>
     </div>

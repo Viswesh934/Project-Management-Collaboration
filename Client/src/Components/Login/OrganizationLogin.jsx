@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Logout from './Logout';
 
 const OrganizationLogin = () => {
+  axios.defaults.withCredentials = true;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -53,6 +55,7 @@ const OrganizationLogin = () => {
           </button>
         </div>
       </form>
+      <Logout />
     </div>
   );
 };
