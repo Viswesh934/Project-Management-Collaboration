@@ -5,6 +5,8 @@ import Signup from './Components/Signup/Signup';
 import ResourcesPage from './Components/ResourcePage/ResourcePage';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ContactUs from './Components/ContactUs/ContactUs';
+import OrganizationDashboard from './Components/OrganizationDashboard/OrganizationDashboard';
+import MemberDashboard from './Components/MemberDashboard/MemberDashboard';
 
 function App() {
 
@@ -16,6 +18,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/resources" element={<ResourcesPage/>}/>
           <Route path="/contactus" element={<ContactUs />} />
+          <Route path="/dashboard" element={<MemberDashboard />} />
         </Routes>
       </div>
   )

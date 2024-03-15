@@ -42,6 +42,11 @@ const NavigationBar = () => {
             Signup
           </Link>
         </div>
+        <div className="mr-4">
+          <Link to="/dashboard" className="text-gray-800 hover:text-gray-700 font-bold">
+            Dashboard
+          </Link>
+        </div>
         <div>
           {isLoggedIn ? (
             <div className="relative">
