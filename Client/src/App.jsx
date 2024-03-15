@@ -5,6 +5,7 @@ import Signup from './Components/Signup/Signup';
 import ResourcesPage from './Components/ResourcePage/ResourcePage';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ContactUs from './Components/ContactUs/ContactUs';
+import Community from './Components/Community/Community';
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/resources" element={<ResourcesPage/>}/>
           <Route path="/contactus" element={<ContactUs />} />
+          <Route path="/community" element={<Community/>} />
         </Routes>
       </div>
   )
