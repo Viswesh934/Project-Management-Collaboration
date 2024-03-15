@@ -3,6 +3,7 @@ const app = express();
 const db = require('./db/dbconnection');
 const memberroutes = require('./routes/memberroutes');
 const organizationroutes = require('./routes/organizationroutes');
+const projectroutes = require('./routes/project');
 
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
 
 app.use(memberroutes);
 app.use(organizationroutes);
+app.use(projectroutes);
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000')
