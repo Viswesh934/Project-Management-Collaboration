@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { OrganizationModel } = require('../Models/OrganizationModel');
+const ProjectIdea = require('../Models/ProjectIdeasModel');
+
 
 async function signup(req, res) {
     try {
@@ -84,6 +86,61 @@ const checkNotAuthenticated = async (req, res, next) => {
         next();
     }
 };
+
+const postProjectIdea = async (req, res) => {
+    try {
+        const token = req?.cookies?.jwt;
+        const decoded = jwt.verify(token, 'jab');
+        const { title, description, skillsRequired } = req?.body;
+        const projectIdea = new ProjectIdea({
+            title,
+            description,
+            skillsRequired,
+            organizationId: decoded.id
+        });
+        await projectIdea.save();
+        res.status(201).send('Project idea posted successfully');
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+const getProjectIdeas = async (req, res) => {
+    try {
+        const token = req?.cookies?.jwt;
+        const decoded = jwt.verify(token, 'jab');
+        const projectIdeas = await ProjectIdea.find({ organizationId: decoded.id });
+        res.status(200).send(projectIdeas);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+const editProjectIdea = async (req, res) => {
+    try {
+        const projectId = req?.params?.id;
+        const projectIdea = await ProjectIdea.findOne({ _id: projectId });
+        projectIdea.title = req?.body?.title;
+        projectIdea.description = req?.body?.description;
+        projectIdea.skillsRequired = req?.body?.skillsRequired;
+        await projectIdea.save();
+        res.status(200).send('Project idea updated successfully');
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const deleteProjectIdea = async (req, res) => {
+    try {
+        const projectId = req?.params?.id;
+        await ProjectIdea.deleteOne({ _id: projectId });
+        res.status(200).send('Project idea deleted successfully');
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
 
 
 module.exports = { signup, login };
