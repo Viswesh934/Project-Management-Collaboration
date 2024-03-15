@@ -12,4 +12,5 @@ router.post('/mem/login', memberController.memberLogin);
 router.post('/logout', memberController.memberLogout);
 router.post('/contactus', ContactUsController.contactUs);
 
+
 module.exports = router;

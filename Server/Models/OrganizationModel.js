@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 let OrganizationSchema = new Schema({
     name: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true},
     password: { type: String, required: true },
     sector: String,
     phoneNumber: String,
@@ -14,6 +14,8 @@ let OrganizationSchema = new Schema({
 // modify Organization profile using Organization Schema
 
 const OrganizationProfileSchema = new Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true},
     description: String,
     projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
     contact: String,
