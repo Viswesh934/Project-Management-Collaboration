@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { OrganizationModel } = require('../Models/OrganizationModel');
 const ProjectIdea = require('../Models/ProjectIdeasModel');
 const { OrganizationModel,OrganizationProfile } = require('../Models/OrganizationModel');
 
