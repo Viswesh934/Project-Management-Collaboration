@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const OrganizationProfile = () => {
+  axios.defaults.withCredentials = true;
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
     name: "Example Organization",
@@ -13,22 +15,47 @@ const OrganizationProfile = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value,
-    });
+    }));
   };
+
+  useEffect(() => {
+    const fetchOrganizationProfile = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/org/profile");
+        setFormData(response.data.organizationProfile);
+      } catch (error) {
+        console.error("Error fetching organization profile:", error);
+      }
+    };
+    fetchOrganizationProfile();
+  }, []);
 
   const handleEditClick = () => {
     setEditMode(true);
   };
 
-  const handleSaveClick = () => {
-    // Perform save operation (e.g., update organization profile)
-    // Here, you might send a request to your backend API to update the organization profile
-    console.log("Updated organization profile:", formData);
-    // After saving, exit edit mode
-    setEditMode(false);
+  const handleSaveClick = async () => {
+    try {
+      // Check if formData is defined and contains necessary fields
+      if (!formData || !formData.name) {
+        console.error("Error: formData or name is undefined");
+        return;
+      }
+
+      // Send PUT request to update organization profile
+      const response = await axios.put(
+        "http://localhost:3000/org/editprofile",
+        formData
+      );
+      console.log("Organization profile updated:", response.data);
+      // After saving, exit edit mode
+      setEditMode(false);
+    } catch (error) {
+      console.error("Error updating organization profile:", error);
+    }
   };
 
   return (
@@ -41,19 +68,17 @@ const OrganizationProfile = () => {
             <label className="block mb-1">Name:</label>
             <input
               type="text"
-              name="name"
+              name="orgname"
               value={formData.name}
-              onChange={handleInputChange}
               className="border rounded px-2 py-1"
             />
           </div>
           <div className="mb-4">
             <label className="block mb-1">Email:</label>
             <input
-              type="email"
-              name="email"
+              type="text"
+              name="emailid"
               value={formData.email}
-              onChange={handleInputChange}
               className="border rounded px-2 py-1"
             />
           </div>
@@ -61,8 +86,8 @@ const OrganizationProfile = () => {
             <label className="block mb-1">Sector:</label>
             <input
               type="text"
-              name="sector"
-              value={formData.sector}
+              name="industry"
+              value={formData.industry}
               onChange={handleInputChange}
               className="border rounded px-2 py-1"
             />
@@ -71,15 +96,16 @@ const OrganizationProfile = () => {
             <label className="block mb-1">Phone Number:</label>
             <input
               type="text"
-              name="phoneNumber"
-              value={formData.phoneNumber}
+              name="contact"
+              value={formData.contact}
               onChange={handleInputChange}
               className="border rounded px-2 py-1"
             />
           </div>
           <div className="mb-4">
             <label className="block mb-1">Description:</label>
-            <textarea
+            <input
+              type="text"
               name="description"
               value={formData.description}
               onChange={handleInputChange}
@@ -87,14 +113,9 @@ const OrganizationProfile = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block mb-1">GitHub Username:</label>
-            <input
-              type="text"
-              name="githubUsername"
-              value={formData.githubUsername}
-              onChange={handleInputChange}
-              className="border rounded px-2 py-1"
-            />
+            <label className="block mb-1">Projects:</label>
+            <input type="text" name="projects" value={formData.projects} onChange={handleInputChange} className="border rounded px-2 py-1" />
+
           </div>
           <button
             onClick={handleSaveClick}
@@ -113,12 +134,24 @@ const OrganizationProfile = () => {
         <div>
           {/* Display mode */}
           <div>
-            <p><strong>Name:</strong> {formData.name}</p>
-            <p><strong>Email:</strong> {formData.email}</p>
-            <p><strong>Sector:</strong> {formData.sector}</p>
-            <p><strong>Phone Number:</strong> {formData.phoneNumber}</p>
-            <p><strong>Description:</strong> {formData.description}</p>
-            <p><strong>GitHub Username:</strong> {formData.githubUsername}</p>
+            <p>
+              <strong>Name:</strong> {formData.name}
+            </p>
+            <p>
+              <strong>Email:</strong> {formData.email}
+            </p>
+            <p>
+              <strong>Sector:</strong> {formData.industry}
+            </p>
+            <p>
+              <strong>Phone Number:</strong> {formData.contact}
+            </p>
+            <p>
+              <strong>Description:</strong> {formData.description}
+            </p>
+            <p>
+              <strong>Projects:</strong> {formData.projects}
+            </p>
           </div>
           <button
             onClick={handleEditClick}
