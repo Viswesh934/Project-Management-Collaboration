@@ -35,6 +35,10 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+      - name: check path
+        run: pwd
+      - name: change path
+        run: cd Client
       - name: Install dependencies
         run: npm ci
       - name: Build
