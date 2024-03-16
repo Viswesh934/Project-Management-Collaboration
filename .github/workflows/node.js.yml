@@ -42,7 +42,7 @@ jobs:
       - name: change path
         run: cd Client
       - name: Install dependencies
-        run: npm ci
+        run: cd Client && npm ci
       - name: Build
         run: npm run build
       - name: Setup Pages
