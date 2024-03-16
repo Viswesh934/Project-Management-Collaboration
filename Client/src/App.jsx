@@ -20,7 +20,7 @@ function App() {
           <Route path="/resources" element={<ResourcesPage/>}/>
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/community" element={<Community/>} />
-          <Route path="/dashboard" element={<MemberDashboard />} 
+          <Route path="/dashboard" element={<MemberDashboard />} />
         </Routes>
       </div>
   )
