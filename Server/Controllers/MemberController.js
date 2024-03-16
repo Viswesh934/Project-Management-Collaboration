@@ -45,6 +45,11 @@ const getMemberId = async(email) => {
     return member?._id;
 }
 
+const getMemberEmail = async(req,res) => {
+    const member = await Member.findOne({_id: req?.params?.id})
+    res.status(200).send(member.email);
+    
+}
 const createToken = async (id) => {
     const token = jwt.sign({ id }, 'jab', { expiresIn: 1000 });
     return token;
@@ -87,7 +92,7 @@ const memberLogout = async (req, res) => {
 
 const memberProfile = async(req, res, next) => {
     try {
-        const token = req?.body?.jwt;
+        const token = req?.cookies?.jwt;
         const decoded = jwt.verify(token, 'jab');
         const user = await MemberProfile.findOne({ memberId: decoded?.id });
         res.status(200).send(user);
@@ -98,26 +103,29 @@ const memberProfile = async(req, res, next) => {
     }
 }
 
-const editMemberProfile = async(req, res, next) => {
+const editMemberProfile = async (req, res, next) => {
     try {
-        const token = req?.body?.jwt;
+        const token = req?.cookies?.jwt;
+        console.log(token);
         const decoded = jwt.verify(token, 'jab');
         const user = await MemberProfile.findOne({ memberId: decoded?.id });
         user.contact = req?.body?.contact;
         user.interests = req?.body?.interests;
-        user.socials = req?.body?.socials;
+        user.twitter = req?.body?.twitter; // Update Twitter
+        user.github = req?.body?.github; // Update GitHub
+        user.linkedin = req?.body?.linkedin; // Update LinkedIn
         await user.save();
         res.status(200).send('profile updated');
-    }
-    catch(err){
+    } catch (err) {
         console.log(err);
         res.status(500).send('internal server error');
     }
-}
+};
+
 
 const postProjectIdea = async(req, res, next) => {
     try {
-        const token = req?.body?.jwt;
+        const token = req?.cookies?.jwt;
         const decoded = jwt.verify(token, 'jab');
         const projectIdea = new ProjectIdea({
             title: req?.body?.title,
@@ -137,9 +145,10 @@ const postProjectIdea = async(req, res, next) => {
 
 const getProjectIdeas = async(req, res, next) => {
     try{
-        const token = req?.body?.jwt;
+        const token = req?.cookies?.jwt;
         const decoded = jwt.verify(token, 'jab');
         const projectIdeas = await ProjectIdea.find({memberId: decoded?.id});
+        console.log(projectIdeas)
         res.status(200).send(projectIdeas);
     }catch(err){
         console.log(err);
@@ -213,6 +222,7 @@ module.exports = {
     getProjectIdeas,
     editProjectIdea,
     deleteProjectIdea,
+    getMemberEmail,
     /*
     checkAuthenticated,
     checkNotAuthenticated
