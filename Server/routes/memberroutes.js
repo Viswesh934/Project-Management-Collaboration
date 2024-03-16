@@ -4,6 +4,7 @@ const memberController = require('../Controllers/MemberController');
 const ContactUsController = require('../Controllers/ContactUsController');
 const cookeParser = require('cookie-parser');
 
+
 router.use(cookeParser());
 router.use(express.json());
 router.post('/mem/signup',
@@ -14,8 +15,6 @@ router.post('/logout',
     memberController.memberLogout);
 router.post('/contactus',
     ContactUsController.contactUs);
-router.get('/profile',
-    memberController.memberProfile);
 router.get('/mem/memberprofile',
     memberController.memberProfile);
 router.patch('/mem/editprofile',
@@ -28,6 +27,8 @@ router.patch('/mem/editprojectidea/:id',
     memberController.editProjectIdea);
 router.delete('/mem/deleteprojectidea/:id',
     memberController.deleteProjectIdea);
+router.get('/mem/getemail/:id',
+    memberController.getMemberEmail);
 
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const ProjectIdea = require('../Models/ProjectIdeasModel');
-const { OrganizationModel,OrganizationProfile } = require('../Models/OrganizationModel');
+const { OrganizationModel, OrganizationProfile } = require('../Models/OrganizationModel');
 
 
 async function signup(req, res) {
@@ -30,6 +30,7 @@ async function signup(req, res) {
 
         // Save the organization to the database
         await organization.save();
+        
         const organizationId = await createprofile(req.body.email,req.body.description,req.body.sector, req.body.name, req.body.phoneNumber);
         res.status(201).json({ message: 'Organization created successfully', organizationId });
         // Create a new organization profile docum
@@ -38,18 +39,18 @@ async function signup(req, res) {
     }
 }
 
-async function createprofile(email,description,sector,name,phoneNumber){
+async function createprofile(email, description, sector, name, phoneNumber) {
     //find the organization id using email
-    const id= await OrganizationModel.findOne({
-        email:email
+    const id = await OrganizationModel.findOne({
+        email: email
     });
     const organizationProfile = new OrganizationProfile({
         name: name,
         email: email,
         description,
-        industry:sector,
-        organizationId:id,
-        contact:phoneNumber
+        industry: sector,
+        organizationId: id,
+        contact: phoneNumber
     });
     console.log(organizationProfile);
     await organizationProfile.save();
@@ -58,14 +59,14 @@ async function createprofile(email,description,sector,name,phoneNumber){
 async function login(req, res) {
     try {
         const { email, password } = req.body;
-        const expirydate = 24 * 60 * 60 * 1000; 
+        const expirydate = 24 * 60 * 60 * 1000;
 
         const organization = await OrganizationModel.findOne({ email });
         if (!organization || !(await bcrypt.compare(password, organization.password))) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
         const token = jwt.sign({ id: organization._id }, 'jab', { expiresIn: '1h' });
-        res.cookie('jwt',  token, { maxAge: expirydate });
+        res.cookie('jwt', token, { maxAge: expirydate });
         res.status(200).json({ message: 'Login successful', token });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -164,6 +165,7 @@ const getProjectIdeas = async (req, res) => {
     try {
         const token = req?.cookies?.jwt;
         const decoded = jwt.verify(token, 'jab');
+        console.log(decoded)
         const projectIdeas = await ProjectIdea.find({ organizationId: decoded.id });
         res.status(200).send(projectIdeas);
     } catch (error) {
@@ -201,6 +203,10 @@ async function logout(req, res) {
 }
 
 
+const getOrganizaitonEmail = async(req,res) => {
+    const member = await OrganizationModel.findOne({_id: req?.params?.id})
+    res.status(200).send(member.email);
+    
+}
 
-
-module.exports = { signup, login, getOrganizationProfile, updateOrganizationProfile, checkAuthenticated, checkNotAuthenticated, logout};
+module.exports = { signup, login, getOrganizationProfile, updateOrganizationProfile, checkAuthenticated, checkNotAuthenticated, logout, postProjectIdea, getProjectIdeas, editProjectIdea, deleteProjectIdea, getOrganizaitonEmail};
