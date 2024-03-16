@@ -30,7 +30,8 @@ async function signup(req, res) {
 
         // Save the organization to the database
         await organization.save();
-        const organizationId = await createprofile(req.body.email, req.body.description, req.body.sector, req.body.phoneNumber, req.body.name);
+        
+        const organizationId = await createprofile(req.body.email,req.body.description,req.body.sector, req.body.name, req.body.phoneNumber);
         res.status(201).json({ message: 'Organization created successfully', organizationId });
         // Create a new organization profile docum
     } catch (error) {
@@ -75,7 +76,7 @@ async function login(req, res) {
 //get user details
 const getOrganizationProfile = async (req, res) => {
     try {
-        const jwt1 = req.body.jwt;
+        const jwt1 = req.cookies.jwt;
         const user = jwt.verify(jwt1, 'jab');
         // Find the organization profile 
         const organizationProfile = await OrganizationProfile.findOne({ organizationId: user.id })
@@ -95,8 +96,8 @@ const getOrganizationProfile = async (req, res) => {
 // Update the organization profile using the same organization id only pro
 
 async function updateOrganizationProfile(req, res) {
-    try {
-        const jwt1 = req.body.jwt;
+    try{
+        const jwt1 = req.cookies.jwt;
         const user = jwt.verify(jwt1, 'jab');
         const organizationProfile = await OrganizationProfile.findOne({ organizationId: user.id });
         // Update the organization profile projects,contact,profile description,

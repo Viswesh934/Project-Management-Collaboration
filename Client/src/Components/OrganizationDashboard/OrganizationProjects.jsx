@@ -1,92 +1,177 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import ProjectFormDialog from "./Projectdialog";
 
 const OrganizationProjects = () => {
-  const [projects, setProjects] = useState([
-    {
-      id: 1,
-      name: "Project 1",
-      description: "This is a description of Project 1.",
-      image: "https://via.placeholder.com/150",
-      tech: ["React", "Node.js", "MongoDB"],
-      teamMembers: [
-        { name: "John Doe", role: "Developer" },
-        { name: "Jane Doe", role: "Designer" },
-      ],
-      githubLink: "https://github.com/example/project1",
-      googledoclink: "https://docs.google.com/document/d/1",
-    },
-    {
-      id: 2,
-      name: "Project 2",
-      description: "This is a description of Project 2.",
-      image: "https://via.placeholder.com/150",
-      tech: ["Vue.js", "Express", "MySQL"],
-      teamMembers: [
-        { name: "Alice Smith", role: "Developer" },
-        { name: "Bob Smith", role: "Tester" },
-      ],
-      githubLink: "https://github.com/example/project2",
-      googledoclink: "https://docs.google.com/document/d/1",
-    },
-  ]);
+  const [projects, setProjects] = useState([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editProjectId, setEditProjectId] = useState(null);
+
+  const openDialog = () => {
+    setIsDialogOpen(true);
+  };
+
+  const closeDialog = () => {
+    setIsDialogOpen(false);
+  };
+
+  const fetchProjects = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/allprojects");
+      const allProjects = response.data.projects;
+      setProjects(allProjects);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+    }
+  };
+
+  const addProject = async (newProject) => {
+    try {
+      const response = await axios.post("http://localhost:3000/addproject", newProject);
+      setProjects([...projects, response.data.project]);
+    } catch (error) {
+      console.error("Error adding project:", error);
+    }
+  };
+
+  const handleEdit = (id) => {
+    setEditProjectId(id);
+  };
+
+  const handleSave = async (id, updatedProject) => {
+    try {
+      await axios.put(`http://localhost:3000/editproject/${id}`, updatedProject);
+      setEditProjectId(null);
+      fetchProjects(); // Fetch projects again to reflect changes
+    } catch (error) {
+      console.error("Error updating project:", error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/deleteproject/${id}`);
+      setProjects(projects.filter(project => project._id !== id));
+    } catch (error) {
+      console.error("Error deleting project:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h2 className="text-2xl font-bold mb-4">Projects</h2>
       <div className="mb-4">
         <button
+          onClick={openDialog}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => {
-            // Logic to handle adding projects
-            console.log("Adding project...");
-          }}
         >
           Add Project
         </button>
       </div>
-
+      <ProjectFormDialog
+        isOpen={isDialogOpen}
+        onClose={closeDialog}
+        addProject={addProject}
+      />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {projects.map((project) => (
-          <div key={project.id} className="bg-gray-100 p-4 rounded-lg">
-            <h3 className="text-lg font-bold mb-2">{project.name}</h3>
-            <img src={project.image} alt={project.name} className="mb-2" />
-            <div className="mb-2">{project.description}</div>
-            <div className="mb-2">
-              <strong>Tech:</strong>{" "}
-              {project.tech.map((tech, index) => (
-                <span key={index} className="mr-2">
-                  {tech}
-                </span>
-              ))}
-            </div>
-            <div className="mb-2">
-              <strong>Team Members:</strong>
-              <ul>
-                {project.teamMembers.map((member, index) => (
-                  <li key={index}>
-                    {member.name} - {member.role}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="flex justify-between">
-              <a
-                href={project.githubLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-block mr-2"
+          <div key={project._id} className="bg-white shadow-md rounded p-4">
+            {editProjectId === project._id ? (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSave(project._id, {
+                    title: e.target.title.value || project.title,
+                    description: e.target.description.value || project.description,
+                    githubLink: e.target.githubLink.value || project.githubLink,
+                    techUsed: e.target.techUsed.value || project.techUsed,
+                    teamMembers: e.target.teamMembers.value || project.teamMembers,
+                  });
+                }}
               >
-                GitHub
-              </a>
-              <a
-                href={project.googledoclink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-block"
-              >
-                Google Doc
-              </a>
-            </div>
+                <input
+                  type="text"
+                  name="title"
+                  placeholder="Enter Title"
+                  defaultValue={project.title}
+                  className="mb-2 border border-gray-300 rounded px-2 py-1"
+                />
+                <textarea
+                  name="description"
+                  placeholder="Enter Description"
+                  defaultValue={project.description}
+                  className="mb-2 border border-gray-300 rounded px-2 py-1"
+                />
+                <input
+                  type="text"
+                  name="githubLink"
+                  placeholder="Enter GitHub Link"
+                  defaultValue={project.githubLink}
+                  className="mb-2 border border-gray-300 rounded px-2 py-1"
+                />
+                <input
+                  type="text"
+                  name="techUsed"
+                  placeholder="Enter Technologies Used"
+                  defaultValue={project.techUsed}
+                  className="mb-2 border border-gray-300 rounded px-2 py-1"
+                />
+                <input
+                  type="text"
+                  name="teamMembers"
+                  placeholder="Enter Team Members"
+                  defaultValue={project.teamMembers}
+                  className="mb-2 border border-gray-300 rounded px-2 py-1"
+                />
+                <button
+                  type="submit"
+                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditProjectId(null)}
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Cancel
+                </button>
+              </form>
+              
+            ) : (
+              <>
+                
+                <h2 className="text-xl font-bold">{project.title}</h2>
+                <p className="text-gray-600">{project.description}</p>
+                <p className="text-gray-600">Technologies Used: {project.techUsed}</p>
+                <p className="text-gray-600">Team Members: {project.teamMembers}</p>
+                <div className="mt-4">
+                  <a
+                    href={project.githubLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-blue-500"
+                  >
+                    <button>GitHub</button>
+                  </a>
+                  <button
+                    onClick={() => handleEdit(project._id)}
+                    className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(project._id)}
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         ))}
       </div>
