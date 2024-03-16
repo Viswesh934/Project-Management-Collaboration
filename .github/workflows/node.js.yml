@@ -31,7 +31,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          path: 'Client' # Checkout code in the Client folder
+          path: 'Project-Management-Collaboration/Client' # Checkout code in the Client folder
+      - name: check path
+        run: pwd
+      - name: change path
+        run: cd Client && pwd
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
