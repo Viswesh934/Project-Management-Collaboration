@@ -30,30 +30,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          path: 'Project-Management-Collaboration/Client' # Checkout code in the Client folder
-      - name: check path
-        run: pwd
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '14'  # Update the Node.js version if needed
           cache: 'npm'
-      - name: check path
-        run: pwd
-      - name: change path
+      - name: Change to Client directory
         run: cd Client
       - name: Install dependencies
-        run: cd Client && npm ci
+        run: npm ci
       - name: Build
-        run: npm run build
+        run: npm run build  # Adjust this command based on your project's build script
+      - name: Return to root directory
+        run: cd ..
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload dist folder
-          path: './dist'
+          path: './Client/dist'  # Adjust the path based on your project's build output directory
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
