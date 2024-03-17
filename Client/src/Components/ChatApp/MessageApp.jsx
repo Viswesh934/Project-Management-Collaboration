@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:5173', { transports: ['websocket', 'polling', 'flashsocket'] });
+const socket = io('http://localhost:3000', { transports: ['websocket', 'polling', 'flashsocket'] });
 
 function MessageApp() {
   const [messages, setMessages] = useState([]);
