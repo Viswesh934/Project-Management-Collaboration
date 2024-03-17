@@ -1,6 +1,7 @@
 const jwt= require('jsonwebtoken');
 const Project = require('../Models/Project');
 const Organization = require('../Models/OrganizationModel');
+const Member = require('../Models/MemberModel');
 
 // constant create project
 const createProject = async (req, res) => {
@@ -89,4 +90,25 @@ const getEveryProjects = async(req, res) => {
     }
 }
 
-module.exports = { createProject, getAllProjects, editProject, deleteProject, getEveryProjects };
+
+const getUserType = async (req, res) => {
+    try {
+      const token = req?.cookies?.jwt;
+      if (!token) {
+        throw new Error('JWT token not found');
+      }
+      const decoded = jwt.verify(token, 'jab');
+      const type = await Member.findOne({ _id: decoded.id });
+      if (type) {
+        res.status(200).send('member');
+      } else {
+        res.status(200).send('organization');
+      }
+    } catch (error) {
+      console.error('Error fetching user type:', error.message);
+      res.status(500).send('Internal Server Error');
+    }
+  };
+  
+
+module.exports = { createProject, getAllProjects, editProject, deleteProject, getEveryProjects, getUserType };

@@ -28,7 +28,7 @@ const memberSignup = async (req, res, next) => {
         });
         console.log(profile);
         await profile.save();
-        res.status(200).send('registration successful');
+        res.status(200).send('member registration successful');
     }
     catch(err){
         if (err.code === 11000) {
