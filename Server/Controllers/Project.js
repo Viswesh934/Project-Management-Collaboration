@@ -78,4 +78,15 @@ const deleteProject = async(req,res)=>{
     }
 }
 
-module.exports = { createProject, getAllProjects, editProject, deleteProject };
+const getEveryProjects = async(req, res) => {
+    try{
+        const projects = await Project.find();
+        res.status(200).send(projects);
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
+}
+
+module.exports = { createProject, getAllProjects, editProject, deleteProject, getEveryProjects };
