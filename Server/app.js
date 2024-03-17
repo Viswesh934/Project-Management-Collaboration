@@ -44,6 +44,13 @@ io.on('connection', (socket) => {
       io.emit('newMessage', message); // Broadcast message to all clients
     });
   });
+io.on('disconnect', () => {
+  console.log('User disconnected');
+});
+io.on('newMessage', (message) => {
+  console.log('Received message:', message);
+  io.emit('newMessage', message); // Broadcast message to all clients
+});
   
 
 server.listen(3000, () => {
