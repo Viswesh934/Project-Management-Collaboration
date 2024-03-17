@@ -3,6 +3,7 @@ import axios from "axios";
 import ProjectFormDialog from "./Projectdialog";
 
 const OrganizationProjects = () => {
+  axios.defaults.withCredentials = true;
   const [projects, setProjects] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editProjectId, setEditProjectId] = useState(null);
@@ -25,13 +26,8 @@ const OrganizationProjects = () => {
     }
   };
 
-  const addProject = async (newProject) => {
-    try {
-      const response = await axios.post("http://localhost:3000/addproject", newProject);
-      setProjects([...projects, response.data.project]);
-    } catch (error) {
-      console.error("Error adding project:", error);
-    }
+  const addProject = async () => {
+    window.location.reload();
   };
 
   const handleEdit = (id) => {

@@ -4,6 +4,7 @@ import OrganizationDashboard from './OrganizationDashboard/OrganizationDashboard
 import MemberDashboard from './MemberDashboard/MemberDashboard';
 
 const Dashboard = () => {
+  axios.defaults.withCredentials = true;
   const [userType, setUserType] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 

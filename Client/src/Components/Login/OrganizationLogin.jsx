@@ -61,7 +61,6 @@ const OrganizationLogin = () => {
           </button>
         </div>
       </form>
-      <Logout />
     </div>
   );
 };

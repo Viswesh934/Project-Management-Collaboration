@@ -19,13 +19,16 @@ const createProject = async (req, res) => {
             project.teamMembers = req.body.teamMembers;
         }
         console.log(project);
+        console.log('going to save')
         await project.save();
+        console.log('saved')
         res.status(200).json({ message: 'Project created successfully' });
     }
     catch (error) {
+        console.error("Error creating project:", error);
         res.status(500).json({ error: error.message });
     }
-}
+}    
 
 // constant get all projects
 const getAllProjects = async(req,res)=>{

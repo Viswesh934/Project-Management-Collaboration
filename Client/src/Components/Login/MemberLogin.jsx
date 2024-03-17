@@ -71,7 +71,6 @@ const MemberLogin = () => {
         </div>
         
       </form>
-      <Logout />
     </div>
   );
 };
