@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import './sliding.css';
+import { useNavigate } from 'react-router-dom';
 
 
 const Card = (props) => {
+  const navigate = useNavigate();
   const handleButtonClick = () => {
-    // Retrieve OrganizationId from props.projectInfo
     const { organizationId } = props.projectInfo;
-    // Do whatever you want with OrganizationId
-    console.log("Organization ID:", organizationId);
+    navigate(`/message-app/${organizationId}`);
   };
 
   return (
@@ -27,8 +27,6 @@ const Card = (props) => {
   );
 };
 
-
-
 const CardContainer = (props) => (
   <div className="cards-container">
     {props.cards.map((card) => (
@@ -46,6 +44,7 @@ const CardContainer = (props) => (
 );
 const AllProjects = () => {
   const [projects, setProjects] = useState([]);
+  
 
   useEffect(() => {
     const fetchProjects = async () => {
