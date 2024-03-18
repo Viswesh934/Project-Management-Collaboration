@@ -5,7 +5,7 @@ var router = express.Router();
 
 
 const {signup, login, getOrganizationProfile, updateOrganizationProfile, 
-getProjectIdeas, postProjectIdea, editProjectIdea, deleteProjectIdea, getOrganizaitonEmail} = require('../Controllers/OrganizationController');
+getProjectIdeas, postProjectIdea, editProjectIdea, deleteProjectIdea, getOrganizaitonEmail, getOrganizationInfo} = require('../Controllers/OrganizationController');
 const { get } = require('mongoose');
 const { getMemberEmail } = require('../Controllers/MemberController');
 
@@ -19,6 +19,7 @@ router.post('/org/postprojectidea', postProjectIdea);
 router.patch('/org/editprojectidea/:id', editProjectIdea);
 router.delete('/org/deleteprojectidea/:id', deleteProjectIdea);
 router.get('/org/getemail/:id', getOrganizaitonEmail);
+router.get('/org/getorganizationinfo/:id', getOrganizationInfo);
 
 
 

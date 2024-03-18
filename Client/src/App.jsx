@@ -9,7 +9,7 @@ import Community from './Components/Community/Community';
 import MessageApp from './Components/ChatApp/MessageApp';
 import ProjectsList from './Components/Projects/ProjectsList';
 import Dashboard from './Components/Dashboard';
-
+import ProjectIdeasList from './Components/ProjectIdeas/ProjectIdeasList';
 function App() {
   return (
     <div>
@@ -22,6 +22,7 @@ function App() {
         <Route path="/community" element={<Community />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/projects" element={<ProjectsList />} />
+        <Route path="/projectideas" element={<ProjectIdeasList />} />
         <Route path="/chat" element={<MessageApp />} />
       </Routes>
     </div>
