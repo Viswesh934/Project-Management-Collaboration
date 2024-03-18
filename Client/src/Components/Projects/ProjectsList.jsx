@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
 import { CardContainer } from "../Homepage/AllProjects"; // Assuming CardContainer is exported from AllProjects
 import NavigationBar from "../Homepage/Navigationbar";
 
@@ -11,7 +10,6 @@ import NavigationBar from "../Homepage/Navigationbar";
 function ProjectsList() {
   const [projects, setProjects] = useState([]);
   const [groupedProjects, setGroupedProjects] = useState({});
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjects = async () => {

@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import './sliding.css';
-import { Navigate, useNavigate } from 'react-router-dom';
 
 const IdeaCard = (props) => {
-  const navigate = useNavigate();
   const handleButtonClick = () => {
+    
     const { memberId, organizationId } = props.ideaData;
     if (memberId) {
-      navigate(`/message-app/${memberId}`);
+      console.log("Member ID:", memberId);
     }else{
-      navigate(`/message-app/${organizationId}`);
+      console.log("Organization ID:", organizationId);
     }
 
   };
@@ -22,7 +21,7 @@ const IdeaCard = (props) => {
         <h2>Title: {props.title}</h2>
         <p>Description: {props.content}</p>
         <p>Skills required: {props.skills}</p>
-        <button onClick={handleButtonClick}>Connect</button>
+        <button onClick={handleButtonClick}>View ID</button>
       </div>
     </div>
   );

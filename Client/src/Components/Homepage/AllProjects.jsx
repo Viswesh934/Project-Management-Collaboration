@@ -1,50 +1,38 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import './sliding.css';
-import { useNavigate } from 'react-router-dom';
 
-
-const Card = (props) => {
-  const navigate = useNavigate();
-  const handleButtonClick = () => {
-    const { organizationId } = props.projectInfo;
-    navigate(`/message-app/${organizationId}`);
-  };
-
-  return (
-    <div className="card flex flex-col bg-white rounded shadow-md overflow-hidden">
-      <img src={props.imgUrl} alt={props.alt || 'Image'} className="w-full h-40 object-cover" />
-      <div className="p-4">
-        <h2 className="text-xl font-bold mb-2">Title: {props.title}</h2>
-        <p className="mb-2">Description: {props.content}</p>
-        <p className="mb-2">Tech Used: {props.techused}</p>
-        <a href={props.github} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Github</a>
-        <button onClick={handleButtonClick} className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Connect
-        </button>
-      </div>
+const Card = (props) => (
+  <div className="card flex flex-col bg-white rounded shadow-md overflow-hidden">
+    <img src={props.imgUrl} alt={props.alt || 'Image'} className="w-full h-40 object-cover" />
+    <div className="p-4">
+      <h2 className="text-xl font-bold mb-2">Title: {props.title}</h2>
+      <p className="mb-2">Description: {props.content}</p>
+      <p className="mb-2">Tech Used: {props.techused}</p>
+      <a href={props.github} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Github</a>
     </div>
-  );
-};
+  </div>
+);
+
+
 
 const CardContainer = (props) => (
   <div className="cards-container">
     {props.cards.map((card) => (
       <Card
-        key={card._id}
         title={card.title}
+        key={card._id}
         content={card.description}
         imgUrl={'https://via.placeholder.com/400x300'}
         techused={card.techUsed.join(', ')}
         github={card.githubLink}
-        projectInfo={card} // Pass the entire card object as projectInfo
       />
     ))}
   </div>
 );
+
 const AllProjects = () => {
   const [projects, setProjects] = useState([]);
-  
 
   useEffect(() => {
     const fetchProjects = async () => {
