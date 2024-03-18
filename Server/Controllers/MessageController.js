@@ -2,18 +2,16 @@ var Conversation = require("../Models/Conversation");
 var Message = require("../Models/Message");
 const jwt = require("jsonwebtoken");
 var socketFunctions = require("../socket/socket.js");
+const Members = require("../Models/MemberModel");
 var getReceiverSocketId = socketFunctions.getReceiverSocketId;
 var io = socketFunctions.io;
 
 const sendMessage = async function(req, res) {
 	try {
-		console.log(req.body);
-		console.log('hi');
 		var message = req.body.message;
 		var receiverId = req.params.id;
-		var token = req.body.jwt;
+		var token = req.cookies.jwt;
 		var senderId = jwt.verify(token, 'jab').id;
-		console.log(senderId,'hi');
 
 		var conversation = await Conversation.findOne({
 			participants: { $all: [senderId, receiverId] }
@@ -39,7 +37,7 @@ const sendMessage = async function(req, res) {
 
 		var receiverSocketId = getReceiverSocketId(receiverId);
 		if (receiverSocketId) {
-			io.to(receiverSocketId).emit("newMessage", newMessage);
+			io.to(receiverSocketId).emit("chatMessage", newMessage);
 		}
 
 		res.status(201).json(newMessage);
@@ -52,14 +50,12 @@ const sendMessage = async function(req, res) {
 const getMessages = async function(req, res) {
 	try {
 		var userToChatId = req.params.id;
-		var token = req.body.jwt;
+		var token = req.cookies.jwt;
 		var senderId = jwt.verify(token, 'jab').id;
-		console.log(senderId,'hello');
 
 		var conversation = await Conversation.findOne({
 			participants: { $all: [senderId, userToChatId] }
 		}).populate("messages");
-        console.log(conversation,'back');
 
 		if (!conversation) return res.status(200).json([]);
 
@@ -71,7 +67,57 @@ const getMessages = async function(req, res) {
 	}
 };
 
+const getAllSenderIds = async (req, res) => {
+    try {
+        const jwt1 = require("jsonwebtoken");
+        const token = req.cookies.jwt;
+        const decoded = jwt1.verify(token, 'jab');
+        const senderId = decoded.id;
+        
+        const messages = await Message.find({ receiverId: senderId });
+        
+
+        // Collect unique sender IDs using a Set
+        const uniqueSenderIdsSet = new Set(messages.map(message => String(message.senderId)));
+        
+        // Log the unique sender IDs to see if they are indeed unique
+        console.log("Unique sender IDs:", Array.from(uniqueSenderIdsSet));
+        
+        // Convert the Set back to an array
+        const uniqueSenderIds = Array.from(uniqueSenderIdsSet);
+        
+        res.status(200).json(uniqueSenderIds);
+    } catch (error) {
+        console.log("Error in getAllSenderIds function: ", error.message);
+        res.status(500).json({ error: "Failed to fetch sender IDs" });
+    }
+};
+
+module.exports = getAllSenderIds;
+
+
+module.exports = getAllSenderIds;
+
+
+
+
+const getOrgId=async function(req,res){
+	try{
+		console.log('hi');
+		const token=req.cookies.jwt;
+		const decoded=jwt.verify(token,'jab');
+		res.status(200).json({userId:decoded.id});
+	}
+	catch(error){
+		console.log("Error in getOrgId controller: ", error.message);
+		res.status(500).json({ error: "Internal server error" });
+	}
+}
+
+
 module.exports = {
     sendMessage,
-    getMessages
+    getMessages,
+	getOrgId,
+	getAllSenderIds
 }

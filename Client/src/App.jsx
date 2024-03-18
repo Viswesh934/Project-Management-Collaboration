@@ -10,6 +10,7 @@ import OrganizationDashboard from './Components/OrganizationDashboard/Organizati
 import MemberDashboard from './Components/MemberDashboard/MemberDashboard';
 import MessageApp from './Components/ChatApp/MessageApp';
 import ProjectsList from './Components/Projects/ProjectsList';
+import ChatPage from './Components/ChatApp/ChatPage';
 function App() {
 
   return (
@@ -23,7 +24,8 @@ function App() {
           <Route path="/community" element={<Community/>} />
           <Route path="/dashboard" element={<OrganizationDashboard />} />
           <Route path="/projects" element={<ProjectsList />}/>
-          <Route path="/chat" element={<MessageApp />}/>
+          <Route path="/chat" element={<ChatPage />}/>
+          <Route path="/message-app/:organizationId" element={<MessageApp />} />
         </Routes>
       </div>
   )

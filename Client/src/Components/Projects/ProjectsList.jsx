@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function ProjectsList() {
   const [projects, setProjects] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/everyproject'); // Update the URL with your backend endpoint
+        const response = await axios.get('http://localhost:3000/everyproject');
         setProjects(response.data);
       } catch (error) {
         console.error('Error fetching projects:', error);
@@ -18,7 +20,7 @@ function ProjectsList() {
   }, []);
 
   const handleConnect = (projectId) => {
-    // Handle connect functionality
+    navigate(`/message-app/${projectId}`);
   };
 
   return (
@@ -43,7 +45,7 @@ function ProjectsList() {
                 </button>
               </a>
               <button
-                onClick={() => handleConnect(project._id)}
+                onClick={() => handleConnect(project.organizationId)}
                 className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
               >
                 Connect

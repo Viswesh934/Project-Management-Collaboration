@@ -1,81 +1,125 @@
 import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import axios from "axios";
-
-const socket = io("http://localhost:3000", {
-  transports: ["websocket", "polling", "flashsocket"],
-});
+import { useParams } from "react-router-dom";
 
 function MessageApp() {
+  axios.defaults.withCredentials = true; // Send cookies with every request
+  const { organizationId } = useParams();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const [receiverId, setReceiverId] = useState(""); // State to store receiver ID
-  const [senderId, setSenderId] = useState(""); // State to store sender ID
+  const [userId, setUserId] = useState(""); // State to store user ID obtained from backend
+  const [socket, setSocket] = useState(null); // State to store socket instance
 
   useEffect(() => {
-    // Socket.io event listeners
-    socket.on("connect", () => {
-      console.log("Connected to server!");
-      // Perform actions based on connection establishment
-    });
+    // Fetch user ID from backend upon component mount
+    const userToChatId = organizationId;
 
-    socket.on("newMessage", (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
-    });
-
-    return () => {
-      socket.disconnect();
+    // Fetch messages based on sender, receiver, and timestamp
+    const fetchMessages = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/mes/${userToChatId}`);
+        setMessages(response.data); // Set fetched messages to state
+      } catch (error) {
+        console.error("Error fetching messages:", error);
+      }
     };
-  }, []);
 
+    // Fetch user ID and connect socket
+    const fetchUserIdAndConnectSocket = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/userId", {
+          withCredentials: true // Send cookies with the request
+        });
+        setUserId(response.data.userId);
+
+        // Establish socket connection after setting userId
+        const newSocket = io("http://localhost:3000", {
+          transports: ["websocket", "polling", "flashsocket"],
+          auth: {
+            userId: response.data.userId
+          }
+        });
+
+        newSocket.on("connect", () => {
+          console.log("Connected to server!");
+          // Perform actions based on connection establishment
+        });
+
+        newSocket.on("message", (message) => {
+          console.log("1")
+          // Update state with new message
+          setMessages(prevMessages => [...prevMessages, message]);
+          console.log("2")
+        });
+
+        setSocket(newSocket); // Set the socket instance in state
+
+        return () => {
+          newSocket.disconnect();
+        };
+      } catch (error) {
+        console.error("Error fetching user ID:", error);
+      }
+    };
+
+    // Fetch user ID and connect socket
+    fetchUserIdAndConnectSocket();
+
+    // Fetch messages
+    fetchMessages();
+  }, [organizationId]); // Reconnect socket and fetch messages when organizationId changes
+
+  // Handle sending a new message
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (newMessage && receiverId && senderId) {
+    if (newMessage && organizationId && userId && socket) { // Ensure socket is not null
       try {
         const data = {
-          message: newMessage,
-          jwt: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZjQ0ZDA3ODVkYTdiZTgwZTU2YTg1NSIsImlhdCI6MTcxMDY2NTU4MSwiZXhwIjoxNzEwNjY2NTgxfQ.GxQgW9PwKYhT3QS3xU-v-C2X3VgprbaR5JzuUfCuitk", // Assuming you have a valid JWT token for authentication
+          message: newMessage
         };
-        const response = await axios.post(
-          `http://localhost:3000/send/${receiverId}`,
+        await axios.post(
+          `http://localhost:3000/send/${organizationId}`,
           data
         );
-        console.log(response.data);
+
+        socket.emit("sendMessage", { message: newMessage, senderId: userId, receiverUserId: organizationId });
+        setNewMessage("");
       } catch (error) {
         console.error("Error sending message:", error);
       }
-      socket.emit("sendMessage", newMessage);
-      setNewMessage("");
     }
   };
 
   return (
-    <div>
-      <ul>
+    <div className="flex flex-col h-full">
+      <div className="flex-1 overflow-y-auto">
         {messages.map((message, index) => (
-          <li key={index}>{message}</li>
+          <div
+            key={index}
+            className={`p-2 rounded-md ${
+              message.senderId === organizationId
+                ? "bg-blue-100 text-left"
+                : "bg-gray-100 text-right"
+            }`}
+          >
+            <p className="text-xs text-gray-500">{message.senderId}</p>
+            <p>{message.message}</p>
+            <p className="text-xs text-gray-500">{message.createdAt}</p>
+          </div>
         ))}
-      </ul>
-      <form onSubmit={handleSendMessage}>
+      </div>
+      <form onSubmit={handleSendMessage} className="flex items-center p-2">
         <input
           type="text"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Enter message..."
+          className="flex-1 border rounded-md p-2 mr-2"
         />
-        <input
-          type="text"
-          value={receiverId}
-          onChange={(e) => setReceiverId(e.target.value)}
-          placeholder="Receiver ID"
-        />
-        <input
-          type="text"
-          value={senderId}
-          onChange={(e) => setSenderId(e.target.value)}
-          placeholder="Sender ID"
-        />
-        <button type="submit">Send</button>
+        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
+          Send
+        </button>
       </form>
     </div>
   );

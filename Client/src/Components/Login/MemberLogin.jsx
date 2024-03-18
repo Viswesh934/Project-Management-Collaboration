@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Logout from './Logout';
-
+import io from "socket.io-client";
 
 
 const MemberLogin = () => {
   axios.defaults.withCredentials = true;
+  const [userId, setUserId] = useState('');
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -15,12 +16,42 @@ const MemberLogin = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  async function fetchUserId() {
+    try {
+      const response = await axios.get("http://localhost:3000/userId", {
+        withCredentials: true // Send cookies with the request
+      });
+      console.log("User ID:", response.data.userId);
+      setUserId(response.data.userId);
+
+      // Establish socket connection after setting userId
+      const newSocket = io("http://localhost:3000", {
+        transports: ["websocket", "polling", "flashsocket"],
+        auth: {
+          userId: response.data.userId
+        }
+      });
+
+      newSocket.on("connect", () => {
+        console.log("Connected to server!");
+        // Perform actions based on connection establishment
+      });
+
+      return () => {
+        newSocket.disconnect();
+      };
+    } catch (error) {
+      console.error("Error fetching user ID:", error);
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3000/mem/login', formData);
+      fetchUserId();
       console.log(response.data);
+
     } catch (error) {
       console.error('Error logging in:', error); // Handle error
     }

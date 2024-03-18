@@ -1,21 +1,52 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Logout from './Logout';
+import io from "socket.io-client";
 
 const OrganizationLogin = () => {
   axios.defaults.withCredentials = true;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [userId, setUserId] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3000/org/login', { email, password });
+      console.log(fetchUserId());
       console.log(response.data); // Handle success response
     } catch (error) {
       console.error('Error:', error); // Handle error
     }
   };
+  async function fetchUserId() {
+    try {
+      const response = await axios.get("http://localhost:3000/userId", {
+        withCredentials: true // Send cookies with the request
+      });
+      console.log("User ID:", response.data.userId);
+      setUserId(response.data.userId);
+
+      // Establish socket connection after setting userId
+      const newSocket = io("http://localhost:3000", {
+        transports: ["websocket", "polling", "flashsocket"],
+        auth: {
+          userId: response.data.userId
+        }
+      });
+
+      newSocket.on("connect", () => {
+        console.log("Connected to server!");
+        // Perform actions based on connection establishment
+      });
+
+      return () => {
+        newSocket.disconnect();
+      };
+    } catch (error) {
+      console.error("Error fetching user ID:", error);
+    }
+  }
 
   return (
     <div className="max-w-md mx-auto">
