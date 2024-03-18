@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import './sliding.css';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const IdeaCard = (props) => {
+  const navigate = useNavigate();
   const handleButtonClick = () => {
-    
     const { memberId, organizationId } = props.ideaData;
     if (memberId) {
-      console.log("Member ID:", memberId);
-    }else{
-      console.log("Organization ID:", organizationId);
+      navigate(`/message-app/${memberId}`);
+    } else {
+      navigate(`/message-app/${organizationId}`);
     }
-
   };
 
   return (
@@ -21,15 +21,18 @@ const IdeaCard = (props) => {
         <h2>Title: {props.title}</h2>
         <p>Description: {props.content}</p>
         <p>Skills required: {props.skills}</p>
-        <button onClick={handleButtonClick}>View ID</button>
+        <button onClick={handleButtonClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Connect
+        </button>
       </div>
     </div>
   );
 };
 
 
+
 const IdeaCardContainer = (props) => (
-  <div className="cards-container">
+  <div className="cards-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
     {props.cards.map((idea) => (
       <IdeaCard
         key={idea._id}
@@ -42,6 +45,7 @@ const IdeaCardContainer = (props) => (
     ))}
   </div>
 );
+
 
 const AllProjectsIdeas = () => {
   axios.defaults.withCredentials = true;
