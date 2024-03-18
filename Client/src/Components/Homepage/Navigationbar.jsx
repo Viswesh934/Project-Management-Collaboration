@@ -102,6 +102,14 @@ const NavigationBar = () => {
             Resources
           </Link>
         </div>
+        <div className="mr-4">
+          <Link
+            to="/chat"
+            className="text-gray-800 hover:text-gray-700 font-bold"
+          >
+            Chat
+          </Link>
+        </div>
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={handleDropdownClick}
