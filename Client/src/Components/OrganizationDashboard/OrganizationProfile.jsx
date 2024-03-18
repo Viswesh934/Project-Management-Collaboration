@@ -62,75 +62,73 @@ const OrganizationProfile = () => {
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-2xl font-bold mb-4">Organization Profile</h2>
       {editMode ? (
-        <div>
-          {/* Editable fields */}
-          <div className="mb-4">
-            <label className="block mb-1">Name:</label>
-            <input
-              type="text"
-              name="orgname"
-              value={formData.name}
-              className="border rounded px-2 py-1"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block mb-1">Email:</label>
-            <input
-              type="text"
-              name="emailid"
-              value={formData.email}
-              className="border rounded px-2 py-1"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block mb-1">Sector:</label>
-            <input
-              type="text"
-              name="industry"
-              value={formData.industry}
-              onChange={handleInputChange}
-              className="border rounded px-2 py-1"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block mb-1">Phone Number:</label>
-            <input
-              type="text"
-              name="contact"
-              value={formData.contact}
-              onChange={handleInputChange}
-              className="border rounded px-2 py-1"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block mb-1">Description:</label>
-            <input
-              type="text"
-              name="description"
-              value={formData.description}
-              onChange={handleInputChange}
-              className="border rounded px-2 py-1"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block mb-1">Projects:</label>
-            <input type="text" name="projects" value={formData.projects} onChange={handleInputChange} className="border rounded px-2 py-1" />
-
-          </div>
-          <button
-            onClick={handleSaveClick}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-          >
-            Save
-          </button>
-          <button
-            onClick={() => setEditMode(false)}
-            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Cancel
-          </button>
-        </div>
-      ) : (
+  <div>
+    {/* Editable fields */}
+    <div className="mb-4">
+      <label className="block mb-1">Name:</label>
+      <input
+        type="text"
+        name="orgname"
+        value={formData.name}
+        onChange={handleInputChange} // Add onChange handler
+        className="border rounded px-2 py-1"
+      />
+    </div>
+    <div className="mb-4">
+      <label className="block mb-1">Email:</label>
+      <input
+        type="text"
+        name="emailid"
+        value={formData.email}
+        onChange={handleInputChange} // Add onChange handler
+        className="border rounded px-2 py-1"
+      />
+    </div>
+    <div className="mb-4">
+      <label className="block mb-1">Sector:</label>
+      <input
+        type="text"
+        name="industry"
+        value={formData.industry}
+        onChange={handleInputChange} // Add onChange handler
+        className="border rounded px-2 py-1"
+      />
+    </div>
+    <div className="mb-4">
+      <label className="block mb-1">Phone Number:</label>
+      <input
+        type="text"
+        name="contact"
+        value={formData.contact}
+        onChange={handleInputChange} // Add onChange handler
+        className="border rounded px-2 py-1"
+      />
+    </div>
+    <div className="mb-4">
+      <label className="block mb-1">Description:</label>
+      <input
+        type="text"
+        name="description"
+        value={formData.description}
+        onChange={handleInputChange} // Add onChange handler
+        className="border rounded px-2 py-1"
+      />
+    </div>
+    <button
+      onClick={handleSaveClick}
+      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+    >
+      Save
+    </button>
+    <button
+      onClick={() => setEditMode(false)}
+      className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Cancel
+    </button>
+  </div>
+)
+ : (
         <div>
           {/* Display mode */}
           <div>
@@ -148,9 +146,6 @@ const OrganizationProfile = () => {
             </p>
             <p>
               <strong>Description:</strong> {formData.description}
-            </p>
-            <p>
-              <strong>Projects:</strong> {formData.projects}
             </p>
           </div>
           <button

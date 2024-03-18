@@ -1,12 +1,20 @@
 import React from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Logout = () => {
+    const navigate = useNavigate();
     const handleLogout = async () => {
         try {
-            await axios.post("http://localhost:3000/logout", null, {
+            const response = await axios.post("http://localhost:3000/logout", null, {
                 withCredentials: true
             });
+            if(response.status === 200) {
+                navigate("/");
+                console.log("Logged out successfully");
+            }else{
+                console.log("Error logging out");
+            }
         } catch (error) {
             console.error("Logout error:", error);
         }

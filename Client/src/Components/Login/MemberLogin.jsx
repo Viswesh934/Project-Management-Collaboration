@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Logout from './Logout';
 import io from "socket.io-client";
+import { useNavigate } from 'react-router-dom';
 
 
 const MemberLogin = () => {
@@ -45,13 +46,18 @@ const MemberLogin = () => {
     }
   }
 
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3000/mem/login', formData);
       fetchUserId();
       console.log(response.data);
-
+      if (response.status === 200) {
+        navigate('/dashboard');
+      } else {
+        console.error('Signup failed:', response.data);
+      }
     } catch (error) {
       console.error('Error logging in:', error); // Handle error
     }
@@ -62,7 +68,7 @@ const MemberLogin = () => {
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-            Email
+            Member Email
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -98,7 +104,6 @@ const MemberLogin = () => {
         </div>
         
       </form>
-      <Logout />
     </div>
   );
 };

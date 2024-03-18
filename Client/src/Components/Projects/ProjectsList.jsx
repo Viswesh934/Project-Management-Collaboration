@@ -1,60 +1,74 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { CardContainer } from "../Homepage/AllProjects"; // Assuming CardContainer is exported from AllProjects
+import NavigationBar from "../Homepage/Navigationbar";
+
 
 function ProjectsList() {
   const [projects, setProjects] = useState([]);
   const navigate = useNavigate();
 
+function ProjectsList() {
+  const [projects, setProjects] = useState([]);
+  const [groupedProjects, setGroupedProjects] = useState({});
+
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/everyproject');
+
+        const response = await axios.get("http://localhost:3000/everyproject");
         setProjects(response.data);
       } catch (error) {
-        console.error('Error fetching projects:', error);
+        console.error("Error fetching projects:", error);
       }
     };
 
     fetchProjects();
   }, []);
 
+  useEffect(() => {
+    const groupProjectsByOrganization = async () => {
+      const groupedProjects = {};
+      for (const project of projects) {
+        const organizationId = project.organizationId;
+        const info = await axios.get(
+          `http://localhost:3000/org/getorganizationinfo/${organizationId}`
+        );
+        if (!groupedProjects[organizationId]) {
+          groupedProjects[organizationId] = {
+            name: `${info.data.name}'s Organization Projects`, // Assuming your backend provides organizationName
+            projects: [],
+          };
+        }
+        groupedProjects[organizationId].projects.push(project);
+      }
+      setGroupedProjects(groupedProjects);
+    };
+
+    if (projects.length > 0) {
+      groupProjectsByOrganization();
+    }
+  }, [projects]);
+
   const handleConnect = (projectId) => {
     navigate(`/message-app/${projectId}`);
   };
 
   return (
-    <div className="container mx-auto">
+    <div>
+      <NavigationBar />
+      <div className="container mx-auto">
       <h2 className="text-3xl font-bold mt-8 mb-4">All Projects</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {projects.map((project) => (
-          <div key={project._id} className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-bold mb-2">{project.title}</h2>
-            <p className="text-gray-600 mb-4">{project.description}</p>
-            <p className="text-gray-600 mb-2">Technologies Used: {project.techUsed.join(', ')}</p>
-            <p className="text-gray-600 mb-4">Team Members: {project.teamMembers.join(', ')}</p>
-            <div className="flex space-x-4">
-              <a
-                href={project.githubLink}
-                target="_blank"
-                rel="noreferrer"
-                className="text-blue-500"
-              >
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                  GitHub
-                </button>
-              </a>
-              <button
-                onClick={() => handleConnect(project.organizationId)}
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-              >
-                Connect
-              </button>
-            </div>
-          </div>
-        ))}
+      {Object.values(groupedProjects).map((organization, index) => (
+        <div key={index}>
+          <h3 className="text-xl font-bold mt-4 mb-2">{organization.name}</h3>
+          <CardContainer cards={organization.projects} />
+        </div>
+      ))}
       </div>
     </div>
+    
   );
 }
 

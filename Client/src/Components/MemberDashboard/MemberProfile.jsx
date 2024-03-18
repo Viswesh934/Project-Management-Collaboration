@@ -57,12 +57,19 @@ const MemberProfile = () => {
     try {
       const response = await axios.get("http://localhost:3000/mem/memberprofile");
       const userData = response.data;
-      console.log(userData);
-      setFormData(userData);
+  
+      // Ensure that userData.skills is an array
+      if (Array.isArray(userData.skills)) {
+        setFormData({ ...formData, ...userData });
+      } else {
+        // If userData.skills is not an array, convert it to an array
+        setFormData({ ...formData, ...userData, skills: [userData.skills] });
+      }
     } catch (error) {
       console.error("Error fetching member profile:", error);
     }
   };
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

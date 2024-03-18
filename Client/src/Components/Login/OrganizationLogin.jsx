@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Logout from './Logout';
 import io from "socket.io-client";
-
+import { useNavigate } from 'react-router-dom';
 const OrganizationLogin = () => {
   axios.defaults.withCredentials = true;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userId, setUserId] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,6 +16,11 @@ const OrganizationLogin = () => {
       const response = await axios.post('http://localhost:3000/org/login', { email, password });
       console.log(fetchUserId());
       console.log(response.data); // Handle success response
+      if(response.status === 200) {
+        navigate('/dashboard');
+      } else {
+        console.error('Signup failed:', data); // Handle signup errors
+      }
     } catch (error) {
       console.error('Error:', error); // Handle error
     }
@@ -86,7 +92,6 @@ const OrganizationLogin = () => {
           </button>
         </div>
       </form>
-      <Logout />
     </div>
   );
 };
