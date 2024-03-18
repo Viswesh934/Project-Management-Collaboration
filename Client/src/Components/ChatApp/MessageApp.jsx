@@ -103,7 +103,7 @@ function MessageApp() {
                 : "bg-gray-100 text-right"
             }`}
           >
-            <p className="text-xs text-gray-500">{message.senderId}</p>
+            <p className="text-xs text-gray-500">{}</p>
             <p>{message.message}</p>
             <p className="text-xs text-gray-500">{message.createdAt}</p>
           </div>
