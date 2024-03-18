@@ -29,6 +29,8 @@ router.delete('/mem/deleteprojectidea/:id',
     memberController.deleteProjectIdea);
 router.get('/mem/getemail/:id',
     memberController.getMemberEmail);
+router.get('/mem/getmemberinfo/:id',
+    memberController.getMemberInfo);
 
 
 module.exports = router;

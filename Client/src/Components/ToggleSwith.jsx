@@ -10,7 +10,7 @@ const ToggleSwitch = ({ component1, component2 }) => {
   return (
     <div>
       <label className="block text-gray-700 text-sm font-bold mb-2">
-        Toggle
+        Are you a Organization?
       </label>
       <input
         type="checkbox"

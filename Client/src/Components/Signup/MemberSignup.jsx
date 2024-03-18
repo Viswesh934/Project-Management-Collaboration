@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom'; 
 const MemberSignup = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -11,6 +12,7 @@ const MemberSignup = () => {
     skills: "",
     githubUsername: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,25 +26,26 @@ const MemberSignup = () => {
         "http://localhost:3000/mem/signup",
         formData
       );
-      console.log(response.data); // Handle success response
+      const data = response.data; // Response data is accessed directly, no need for response.json() with axios
+      if (data === "member registration successful") { // Use strict comparison (===) for comparison
+        navigate('/login'); // Redirect to login route on success
+      } else {
+        console.error('Signup failed:', data.message); // Handle signup errors
+      }
     } catch (error) {
       console.error("Error submitting form:", error); // Handle error
     }
   };
+  
 
   return (
     <div className="max-w-md mx-auto">
+      <h2 className="text-center text-2xl font-bold mb-4">Member Signup</h2>
       <form
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
       >
         <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="name"
-          >
-            Name
-          </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="text"
@@ -54,12 +57,7 @@ const MemberSignup = () => {
           />
         </div>
         <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="email"
-          >
-            Email
-          </label>
+          
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="email"
@@ -71,12 +69,7 @@ const MemberSignup = () => {
           />
         </div>
         <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="password"
-          >
-            Password
-          </label>
+          
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="password"
@@ -88,12 +81,7 @@ const MemberSignup = () => {
           />
         </div>
         <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="confirmPassword"
-          >
-            Confirm Password
-          </label>
+          
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="password"
@@ -105,12 +93,7 @@ const MemberSignup = () => {
           />
         </div>
         <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="gender"
-          >
-            Gender
-          </label>
+         
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="text"
@@ -121,28 +104,18 @@ const MemberSignup = () => {
           />
         </div>
         <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="skills"
-          >
-            Skills (comma-separated)
-          </label>
+          
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="text"
             name="skills"
             value={formData.skills}
             onChange={handleChange}
-            placeholder="Skills"
+            placeholder="Skills(comma-sepetated)"
           />
         </div>
         <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="githubUsername"
-          >
-            GitHub Username
-          </label>
+          
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="text"

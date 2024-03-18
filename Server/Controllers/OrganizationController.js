@@ -209,4 +209,10 @@ const getOrganizaitonEmail = async(req,res) => {
     
 }
 
-module.exports = { signup, login, getOrganizationProfile, updateOrganizationProfile, checkAuthenticated, checkNotAuthenticated, logout, postProjectIdea, getProjectIdeas, editProjectIdea, deleteProjectIdea, getOrganizaitonEmail};
+const getOrganizationInfo = async(req,res) => {
+    const member = await OrganizationModel.findOne({_id: req?.params?.id})
+    res.status(200).send(member);
+}
+
+
+module.exports = { signup, login, getOrganizationProfile, updateOrganizationProfile, checkAuthenticated, checkNotAuthenticated, logout, postProjectIdea, getProjectIdeas, editProjectIdea, deleteProjectIdea, getOrganizaitonEmail, getOrganizationInfo};

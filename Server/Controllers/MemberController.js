@@ -28,7 +28,7 @@ const memberSignup = async (req, res, next) => {
         });
         console.log(profile);
         await profile.save();
-        res.status(200).send('registration successful');
+        res.status(200).send('member registration successful');
     }
     catch(err){
         if (err.code === 11000) {
@@ -181,6 +181,17 @@ const deleteProjectIdea = async(req, res, next) => {
         res.status(500).send('internal server error');
     }
 }
+
+const getMemberInfo = async(req, res, next) => {
+    try{
+        const memberId = req?.params?.id;
+        const member = await Member.findOne({_id: memberId});
+        res.status(200).send(member);
+    }catch(err){
+        console.log(err);
+        res.status(500).send('internal server error');
+    }
+}
 /*
 const checkAuthenticated = async (req, res, next) => {
     const token = req?.cookies?.jwt;
@@ -223,6 +234,7 @@ module.exports = {
     editProjectIdea,
     deleteProjectIdea,
     getMemberEmail,
+    getMemberInfo
     /*
     checkAuthenticated,
     checkNotAuthenticated

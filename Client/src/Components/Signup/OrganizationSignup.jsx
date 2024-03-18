@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const OrganizationSignup = () => {
   const [name, setName] = useState('');
@@ -8,6 +10,8 @@ const OrganizationSignup = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [description, setDescription] = useState('');
   const [githubUsername, setGithubUsername] = useState('');
+
+  const navigate = useNavigate(); // Import useNavigate hook
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +24,12 @@ const OrganizationSignup = () => {
         body: JSON.stringify({ name, email, password, sector, phoneNumber, description, githubUsername })
       });
       const data = await response.json();
-      console.log(data); // Handle the response, e.g., redirect to login page
+      console.log(data)
+      if (data.message="Organization created successfully") { // Check for successful signup in response
+        navigate('/login'); // Redirect to login route on success
+      } else {
+        console.error('Signup failed:', data.message); // Handle signup errors
+      }
     } catch (error) {
       console.error('Error:', error);
     }
