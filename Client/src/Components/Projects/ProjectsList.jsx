@@ -5,9 +5,7 @@ import { CardContainer } from "../Homepage/AllProjects"; // Assuming CardContain
 import NavigationBar from "../Homepage/Navigationbar";
 
 
-function ProjectsList() {
-  const [projects, setProjects] = useState([]);
-  const navigate = useNavigate();
+
 
 function ProjectsList() {
   const [projects, setProjects] = useState([]);
