@@ -1,7 +1,13 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { CardContainer } from "../Homepage/AllProjects"; // Assuming CardContainer is exported from AllProjects
 import NavigationBar from "../Homepage/Navigationbar";
+
+
+function ProjectsList() {
+  const [projects, setProjects] = useState([]);
+  const navigate = useNavigate();
 
 function ProjectsList() {
   const [projects, setProjects] = useState([]);
@@ -10,6 +16,7 @@ function ProjectsList() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
+
         const response = await axios.get("http://localhost:3000/everyproject");
         setProjects(response.data);
       } catch (error) {
@@ -45,7 +52,7 @@ function ProjectsList() {
   }, [projects]);
 
   const handleConnect = (projectId) => {
-    // Handle connect functionality
+    navigate(`/message-app/${projectId}`);
   };
 
   return (
@@ -59,7 +66,7 @@ function ProjectsList() {
           <CardContainer cards={organization.projects} />
         </div>
       ))}
-    </div>
+      </div>
     </div>
     
   );

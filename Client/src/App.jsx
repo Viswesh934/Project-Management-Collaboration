@@ -8,8 +8,10 @@ import ContactUs from './Components/ContactUs/ContactUs';
 import Community from './Components/Community/Community';
 import MessageApp from './Components/ChatApp/MessageApp';
 import ProjectsList from './Components/Projects/ProjectsList';
+import ChatPage from './Components/ChatApp/ChatPage';
 import Dashboard from './Components/Dashboard';
 import ProjectIdeasList from './Components/ProjectIdeas/ProjectIdeasList';
+
 function App() {
   return (
     <div>
@@ -23,7 +25,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/projects" element={<ProjectsList />} />
         <Route path="/projectideas" element={<ProjectIdeasList />} />
-        <Route path="/chat" element={<MessageApp />} />
+        <Route path="/chat" element={<ChatPage />}/>
+        <Route path="/message-app/:organizationId" element={<MessageApp />} />
       </Routes>
     </div>
   );
