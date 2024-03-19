@@ -6,6 +6,7 @@ import { AccountCircle, Dashboard } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { ListItemButton } from "@mui/material"; // Import ListItemButton
 
 const NavigationBar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -127,39 +128,38 @@ const NavigationBar = () => {
               {isLoggedIn ? <Dashboard /> : <AccountCircle />}
             </IconButton>
             <Menu
-              id="navbar-menu"
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              getContentAnchorEl={null}
-            >
-              {isLoggedIn &&
-              (userType === "organization" || userType === "member") ? (
-                <>
-                  <MenuItem onClick={handleClose}>
-                    <Link to="/dashboard">Dashboard</Link>
-                  </MenuItem>
-                  <MenuItem onClick={handleLogout}><Logout /></MenuItem>
-                </>
-              ) : (
-                <>
-                  <MenuItem onClick={handleClose}>
-                    <Link to="/login">Login</Link>
-                  </MenuItem>
-                  <MenuItem onClick={handleClose}>
-                    <Link to="/signup">Signup</Link>
-                  </MenuItem>
-                </>
-              )}
-            </Menu>
+  id="navbar-menu"
+  anchorEl={anchorEl}
+  open={Boolean(anchorEl)}
+  onClose={handleClose}
+  anchorOrigin={{
+    vertical: "bottom",
+    horizontal: "right",
+  }}
+  transformOrigin={{
+    vertical: "top",
+    horizontal: "right",
+  }}
+>
+  {isLoggedIn && (userType === "organization" || userType === "member") ? (
+    [
+      <MenuItem key="dashboard" onClick={handleClose}>
+        <ListItemButton component={Link} to="/dashboard">Dashboard</ListItemButton>
+      </MenuItem>,
+      <MenuItem key="logout" onClick={handleLogout}><Logout /></MenuItem>
+    ]
+  ) : (
+    [
+      <MenuItem key="login" onClick={handleClose}>
+        <ListItemButton component={Link} to="/login">Login</ListItemButton>
+      </MenuItem>,
+      <MenuItem key="signup" onClick={handleClose}>
+        <ListItemButton component={Link} to="/signup">Signup</ListItemButton>
+      </MenuItem>
+    ]
+  )}
+</Menu>
+
           </div>
         </div>
       </div>
