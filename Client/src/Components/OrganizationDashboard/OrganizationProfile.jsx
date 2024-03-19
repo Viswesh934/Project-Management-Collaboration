@@ -53,7 +53,7 @@ const OrganizationProfile = () => {
 
   const fetchOrganizationProfile = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/org/profile");
+      const response = await axios.get(`${import.meta.env.VITE_APP_URL}org/profile`);
       setFormData(response.data.organizationProfile);
     } catch (error) {
       console.error("Error fetching organization profile:", error);
@@ -74,7 +74,7 @@ const OrganizationProfile = () => {
 
   const handleSaveClick = async () => {
     try {
-      await axios.put("http://localhost:3000/org/editprofile", formData);
+      await axios.put(`${import.meta.env.VITE_APP_URL}org/editprofile`, formData);
       console.log("Organization profile updated successfully.");
       setEditMode(false);
     } catch (error) {
@@ -90,8 +90,8 @@ const OrganizationProfile = () => {
           {/* Editable fields */}
           <EditableField label="Name" value={formData.name} name="name" onChange={handleInputChange} />
           <EditableField label="Email" value={formData.email} name="email" onChange={handleInputChange} />
-          <EditableField label="Sector" value={formData.sector} name="sector" onChange={handleInputChange} />
-          <EditableField label="Phone Number" value={formData.phoneNumber} name="phoneNumber" onChange={handleInputChange} />
+          <EditableField label="Sector" value={formData.industry} name="sector" onChange={handleInputChange} />
+          <EditableField label="Phone Number" value={formData.contact} name="phoneNumber" onChange={handleInputChange} />
           <EditableField label="Description" value={formData.description} name="description" onChange={handleInputChange} />
 
           <Button
@@ -114,8 +114,8 @@ const OrganizationProfile = () => {
           {/* Display mode */}
           <DisplayField label="Name" value={formData.name} />
           <DisplayField label="Email" value={formData.email} />
-          <DisplayField label="Sector" value={formData.sector} />
-          <DisplayField label="Phone Number" value={formData.phoneNumber} />
+          <DisplayField label="Sector" value={formData.industry} />
+          <DisplayField label="Phone Number" value={formData.contact} />
           <DisplayField label="Description" value={formData.description} />
 
           <Button

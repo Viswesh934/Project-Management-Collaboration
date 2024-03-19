@@ -23,7 +23,7 @@ const OrganizationProjectIdeas = () => {
   const fetchProjectIdeas = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/org/getprojectideas"
+        `${import.meta.env.VITE_APP_URL}org/getprojectideas`
       );
       setProjectIdeas(response.data);
     } catch (error) {
@@ -32,7 +32,7 @@ const OrganizationProjectIdeas = () => {
   };
 
   const handleContactClick = async(id) => {
-    const email = await axios.get(`http://localhost:3000/org/getemail/${id}`,)
+    const email = await axios.get(`${import.meta.env.VITE_APP_URL}org/getemail/${id}`,)
     window.location.href = `mailto:${email.data}`;
   };
 
@@ -49,7 +49,7 @@ const OrganizationProjectIdeas = () => {
   const handleSaveEdit = async () => {
     try {
       await axios.patch(
-        `http://localhost:3000/org/editprojectidea/${editedProjectIdea._id}`,
+        `${import.meta.env.VITE_APP_URL}org/editprojectidea/${editedProjectIdea._id}`,
         editedProjectIdea
       );
       setEditMode(false);
@@ -63,7 +63,7 @@ const OrganizationProjectIdeas = () => {
   const handleDeleteProjectIdea = async (projectId) => {
     try {
       await axios.delete(
-        `http://localhost:3000/org/deleteprojectidea/${projectId}`
+        `${import.meta.env.VITE_APP_URL}org/deleteprojectidea/${projectId}`
       );
       fetchProjectIdeas(); // Refresh project ideas after deletion
     } catch (error) {
@@ -90,7 +90,7 @@ const OrganizationProjectIdeas = () => {
   const handleAddProjectIdea = async () => {
     try {
       await axios.post(
-        "http://localhost:3000/org/postprojectidea",
+        `${import.meta.env.VITE_APP_URL}org/postprojectidea`,
         newProjectIdea
       );
       setNewProjectIdea({

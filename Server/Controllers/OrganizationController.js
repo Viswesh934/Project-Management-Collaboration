@@ -59,13 +59,13 @@ async function createprofile(email, description, sector, name, phoneNumber) {
 async function login(req, res) {
     try {
         const { email, password } = req.body;
-        const expirydate = 24 * 60 * 60 * 1000;
+        const expirydate = 1000 * 60 * 60 * 24 * 3;
 
         const organization = await OrganizationModel.findOne({ email });
         if (!organization || !(await bcrypt.compare(password, organization.password))) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
-        const token = jwt.sign({ id: organization._id }, 'jab', { expiresIn: '1h' });
+        const token = jwt.sign({ id: organization._id }, process.env.TOKEN, { expiresIn: expirydate });
         res.cookie('jwt', token, { maxAge: expirydate });
         // add user id to socket
 
@@ -79,7 +79,7 @@ async function login(req, res) {
 const getOrganizationProfile = async (req, res) => {
     try {
         const jwt1 = req.cookies.jwt;
-        const user = jwt.verify(jwt1, 'jab');
+        const user = jwt.verify(jwt1, process.env.TOKEN);
         // Find the organization profile 
         const organizationProfile = await OrganizationProfile.findOne({ organizationId: user.id })
         console.log(organizationProfile);
@@ -100,7 +100,7 @@ const getOrganizationProfile = async (req, res) => {
 async function updateOrganizationProfile(req, res) {
     try{
         const jwt1 = req.cookies.jwt;
-        const user = jwt.verify(jwt1, 'jab');
+        const user = jwt.verify(jwt1, process.env.TOKEN);
         const organizationProfile = await OrganizationProfile.findOne({ organizationId: user.id });
         // Update the organization profile projects,contact,profile description,
         organizationProfile.projects = req.body.projects;
@@ -121,7 +121,7 @@ const checkAuthenticated = async (req, res, next) => {
         return res.send('not authenticated');
     }
     try {
-        const user1 = jwt.verify(token, 'jab');
+        const user1 = jwt.verify(token, process.env.TOKEN);
         req.user = user1;
         next();
     } catch (error) {
@@ -133,7 +133,7 @@ const checkNotAuthenticated = async (req, res, next) => {
     const token = req?.cookies?.jwt;
     if (token) {
         try {
-            const user1 = jwt.verify(token, 'jab');
+            const user1 = jwt.verify(token, process.env.TOKEN);
             req.user = user1;
             return res.send('already authenticated');
         } catch (error) {
@@ -147,7 +147,7 @@ const checkNotAuthenticated = async (req, res, next) => {
 const postProjectIdea = async (req, res) => {
     try {
         const token = req?.cookies?.jwt;
-        const decoded = jwt.verify(token, 'jab');
+        const decoded = jwt.verify(token, process.env.TOKEN);
         const { title, description, skillsRequired } = req?.body;
         const projectIdea = new ProjectIdea({
             title,
@@ -166,7 +166,7 @@ const postProjectIdea = async (req, res) => {
 const getProjectIdeas = async (req, res) => {
     try {
         const token = req?.cookies?.jwt;
-        const decoded = jwt.verify(token, 'jab');
+        const decoded = jwt.verify(token, process.env.TOKEN);
         console.log(decoded)
         const projectIdeas = await ProjectIdea.find({ organizationId: decoded.id });
         res.status(200).send(projectIdeas);

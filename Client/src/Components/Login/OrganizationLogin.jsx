@@ -13,7 +13,7 @@ const OrganizationLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/org/login', { email, password });
+      const response = await axios.post(`${import.meta.env.VITE_APP_URL}org/login`, { email, password });
       console.log(fetchUserId());
       console.log(response.data); // Handle success response
       if(response.status === 200) {
@@ -27,7 +27,7 @@ const OrganizationLogin = () => {
   };
   async function fetchUserId() {
     try {
-      const response = await axios.get("http://localhost:3000/userId", {
+      const response = await axios.get(`${import.meta.env.VITE_APP_URL}userId`, {
         withCredentials: true // Send cookies with the request
       });
       console.log("User ID:", response.data.userId);

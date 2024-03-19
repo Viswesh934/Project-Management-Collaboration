@@ -22,7 +22,7 @@ const NavigationBar = () => {
     
       if (token) {
         try {
-          const response = await axios.get("http://localhost:3000/usertype");
+          const response = await axios.get(`${import.meta.env.VITE_APP_URL}usertype`);
           const userType = response.data; // Accessing the data property of the response
     
           setUserType(userType); // Setting user type

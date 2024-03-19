@@ -12,6 +12,7 @@ import ChatPage from './Components/ChatApp/ChatPage';
 import Dashboard from './Components/Dashboard';
 import ProjectIdeasList from './Components/ProjectIdeas/ProjectIdeasList';
 
+
 function App() {
   return (
     <div>

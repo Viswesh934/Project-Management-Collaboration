@@ -1,7 +1,7 @@
 const { CohereClient } = require("cohere-ai");
 
 const cohere = new CohereClient({
-    token: "LYZumADssLBo2UPvvHzJGwsdirAbNu9gJu4bTq0r", 
+    token: process.env.AITOKEN, 
     
     // Assuming you've stored your API key in an environment variable named CO_API_KEY
 });

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import './sliding.css';
 import { Navigate, useNavigate } from 'react-router-dom';
+import projectidea from '../projectidea.jpg';
 
 const IdeaCard = (props) => {
   const navigate = useNavigate();
@@ -16,11 +17,11 @@ const IdeaCard = (props) => {
 
   return (
     <div className="card">
-      <img src={props.imgUrl} alt={props.alt || "Image"} />
+      <img src={projectidea} alt={props.alt || "Image"} /> {/* Use projectidea image */}
       <div className="card-content">
-        <h2>Title: {props.title}</h2>
-        <p>Description: {props.content}</p>
-        <p>Skills required: {props.skills}</p>
+      <h2 className="text-xl font-bold mb-2">{props.title}</h2>
+        <p className="mb-2">Description: {props.content}</p>
+        <p className="mb-2">Skills required: {props.skills}</p>
         <button onClick={handleButtonClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           Connect
         </button>
@@ -29,8 +30,6 @@ const IdeaCard = (props) => {
   );
 };
 
-
-
 const IdeaCardContainer = (props) => (
   <div className="cards-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
     {props.cards.map((idea) => (
@@ -38,14 +37,12 @@ const IdeaCardContainer = (props) => (
         key={idea._id}
         title={idea.title}
         content={idea.description}
-        imgUrl={"https://via.placeholder.com/400x300"}
         skills={idea.skillsRequired.join(", ")}
         ideaData={idea} // Pass the ideaData prop here
       />
     ))}
   </div>
 );
-
 
 const AllProjectsIdeas = () => {
   axios.defaults.withCredentials = true;
@@ -54,7 +51,8 @@ const AllProjectsIdeas = () => {
   useEffect(() => {
     const fetchIdeas = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/everyprojectidea');
+        console.log(<h1>{import.meta.env.VITE_APP_URL}</h1>)
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}everyprojectidea`);
         setIdeas(response.data);
       } catch (error) {
         console.error('Error fetching project ideas:', error);

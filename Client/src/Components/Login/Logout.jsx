@@ -6,7 +6,7 @@ const Logout = () => {
     const navigate = useNavigate();
     const handleLogout = async () => {
         try {
-            const response = await axios.post("http://localhost:3000/logout", null, {
+            const response = await axios.post(`${import.meta.env.VITE_APP_URL}logout`, null, {
                 withCredentials: true
             });
             if(response.status === 200) {

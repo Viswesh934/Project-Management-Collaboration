@@ -20,7 +20,7 @@ const ContactUs = () => {
     event.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/contactus",
+        `${import.meta.env.VITE_APP_URL}contactus`,
         formData
       );
       console.log(response.data); // Handle success response

@@ -57,7 +57,7 @@ const MemberProfile = () => {
 
   const fetchMemberProfile = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/mem/memberprofile");
+      const response = await axios.get(`${import.meta.env.VITE_APP_URL}mem/memberprofile`);
       const userData = response.data;
 
       if (Array.isArray(userData.skills)) {
@@ -84,7 +84,7 @@ const MemberProfile = () => {
 
   const handleSaveClick = async () => {
     try {
-      await axios.patch("http://localhost:3000/mem/editprofile", formData);
+      await axios.patch(`${import.meta.env.VITE_APP_URL}mem/editprofile`, formData);
       console.log("Member profile updated successfully.");
       setEditMode(false);
     } catch (error) {

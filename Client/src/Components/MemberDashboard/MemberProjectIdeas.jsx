@@ -24,7 +24,7 @@ const MemberProjectIdeas = () => {
   const fetchProjectIdeas = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/mem/getprojectideas"
+        `${import.meta.env.VITE_APP_URL}mem/getprojectideas`
       );
       setProjectIdeas(response.data);
     } catch (error) {
@@ -33,7 +33,7 @@ const MemberProjectIdeas = () => {
   };
 
   const handleContactClick = async(id) => {
-    const email = await axios.get(`http://localhost:3000/mem/getemail/${id}`,)
+    const email = await axios.get(`${import.meta.env.VITE_APP_URL}mem/getemail/${id}`,)
     window.location.href = `mailto:${email.data}`;
   };
 
@@ -50,7 +50,7 @@ const MemberProjectIdeas = () => {
   const handleSaveEdit = async () => {
     try {
       await axios.patch(
-        `http://localhost:3000/mem/editprojectidea/${editedProjectIdea._id}`,
+        `${import.meta.env.VITE_APP_URL}mem/editprojectidea/${editedProjectIdea._id}`,
         editedProjectIdea
       );
       setEditMode(false);
@@ -63,7 +63,7 @@ const MemberProjectIdeas = () => {
 
   const handleDeleteProjectIdea = async (projectId) => {
     try {
-      await axios.delete(`http://localhost:3000/mem/deleteprojectidea/${projectId}`);
+      await axios.delete(`${import.meta.env.VITE_APP_URL}mem/deleteprojectidea/${projectId}`);
       fetchProjectIdeas(); // Refresh project ideas after deletion
     } catch (error) {
       console.error("Error deleting project idea:", error);
@@ -98,7 +98,7 @@ const MemberProjectIdeas = () => {
   const handleAddProjectIdea = async () => {
     try {
       await axios.post(
-        "http://localhost:3000/mem/postprojectidea",
+        `${import.meta.env.VITE_APP_URL}mem/postprojectidea`,
         newProjectIdea
       );
       setNewProjectIdea({
@@ -136,7 +136,7 @@ const MemberProjectIdeas = () => {
         <input
           type="text"
           name="skillsRequired"
-          value={newProjectIdea.skillsRequired.join(", ")}
+          value={newProjectIdea.skillsRequired}
           onChange={handleNewInputChange}
           placeholder="Skills Required"
           className="border rounded px-2 py-1 mr-2"
@@ -153,7 +153,7 @@ const MemberProjectIdeas = () => {
           <h3 className="text-lg font-bold mb-2">{idea.title}</h3>
           <p className="mb-2">{idea.description}</p>
           <p className="mb-2">
-            <strong>Skills Required:</strong> {idea.skillsRequired.join(", ")}
+            <strong>Skills Required:</strong> {idea.skillsRequired}
           </p>
           {/* Button to contact team lead */}
           
@@ -206,7 +206,7 @@ const MemberProjectIdeas = () => {
         type="text"
         id="skillsRequired"
         name="skillsRequired"
-        value={editedProjectIdea.skillsRequired.join(", ")}
+        value={editedProjectIdea.skillsRequired}
         onChange={handleInputChange}
         className="border rounded px-2 py-1"
       />

@@ -11,7 +11,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchUserType = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/usertype');
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}usertype`);
         console.log(response); // Replace this with your actual endpoint to fetch user type
         setUserType(response.data);
         setIsLoading(false);

@@ -23,7 +23,7 @@ const MemberSignup = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/mem/signup",
+        `${import.meta.env.VITE_APP_URL}mem/signup`,
         formData
       );
       const data = response.data; // Response data is accessed directly, no need for response.json() with axios

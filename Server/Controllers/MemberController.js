@@ -51,7 +51,7 @@ const getMemberEmail = async(req,res) => {
     
 }
 const createToken = async (id) => {
-    const token = jwt.sign({ id }, 'jab', { expiresIn: 1000 });
+    const token = jwt.sign({ id }, process.env.TOKEN, { expiresIn: 1000 });
     return token;
 };
 
@@ -93,7 +93,7 @@ const memberLogout = async (req, res) => {
 const memberProfile = async(req, res, next) => {
     try {
         const token = req?.cookies?.jwt;
-        const decoded = jwt.verify(token, 'jab');
+        const decoded = jwt.verify(token, process.env.TOKEN);
         const user = await MemberProfile.findOne({ memberId: decoded?.id });
         res.status(200).send(user);
     }
@@ -107,7 +107,7 @@ const editMemberProfile = async (req, res, next) => {
     try {
         const token = req?.cookies?.jwt;
         console.log(token);
-        const decoded = jwt.verify(token, 'jab');
+        const decoded = jwt.verify(token, process.env.TOKEN);
         const user = await MemberProfile.findOne({ memberId: decoded?.id });
         user.contact = req?.body?.contact;
         user.interests = req?.body?.interests;
@@ -126,7 +126,7 @@ const editMemberProfile = async (req, res, next) => {
 const postProjectIdea = async(req, res, next) => {
     try {
         const token = req?.cookies?.jwt;
-        const decoded = jwt.verify(token, 'jab');
+        const decoded = jwt.verify(token, process.env.TOKEN);
         const projectIdea = new ProjectIdea({
             title: req?.body?.title,
             description: req?.body?.description,
@@ -146,7 +146,7 @@ const postProjectIdea = async(req, res, next) => {
 const getProjectIdeas = async(req, res, next) => {
     try{
         const token = req?.cookies?.jwt;
-        const decoded = jwt.verify(token, 'jab');
+        const decoded = jwt.verify(token, process.env.TOKEN);
         const projectIdeas = await ProjectIdea.find({memberId: decoded?.id});
         console.log(projectIdeas)
         res.status(200).send(projectIdeas);
@@ -199,7 +199,7 @@ const checkAuthenticated = async (req, res, next) => {
         return res.send('not authenticated');
     }
     try {
-        const user1 = jwt.verify(token, 'jab');
+        const user1 = jwt.verify(token, process.env.TOKEN);
         req.user = user1;
         next();
     } catch (error) {
@@ -211,7 +211,7 @@ const checkNotAuthenticated = async (req, res, next) => {
     const token = req?.cookies?.jwt;
     if (token) {
         try {
-            const user1 = jwt.verify(token, 'jab');
+            const user1 = jwt.verify(token, process.env.TOKEN);
             req.user = user1;
             return res.send('already authenticated');
         } catch (error) {
