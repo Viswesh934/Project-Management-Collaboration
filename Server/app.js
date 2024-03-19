@@ -11,7 +11,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:3000"], // Adjust origins as per your requirements
+    origin: [process.env.SERVERURL], // Adjust origins as per your requirements
     methods: ["GET", "POST"],
     credentials: true,
   }
@@ -27,7 +27,7 @@ const AiRoutes = require('./routes/Airoutes');
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:5173', // Adjust origin as per your requirements
+  origin: process.env.CLIENTURL, // Adjust origin as per your requirements
   credentials: true
 }));
 app.use(cookieParser());
