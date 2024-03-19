@@ -156,12 +156,7 @@ const MemberProjectIdeas = () => {
             <strong>Skills Required:</strong> {idea.skillsRequired.join(", ")}
           </p>
           {/* Button to contact team lead */}
-          <button
-            onClick={() => handleContactClick(idea.memberId)}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-          >
-            Contact
-          </button>
+          
           {/* Button to edit project idea */}
           <button
             onClick={() => handleEditClick(idea)}

@@ -127,4 +127,18 @@ const getEveryProjectIdea = async (req, res) => {
     }
 }
 
-module.exports = { createProject,  getAllProjects, editProject, deleteProject, getEveryProjects, getUserType, getEveryProjectIdea };
+const protectedRoute = async (req, res) => {
+    try {
+        const token = req?.cookies?.jwt;
+        if (!token) {
+            res.status(401).send('Unauthorized');
+        }
+        const decoded = jwt.verify(token, 'jab');
+        res.status(200).send('Login successfull');
+    } catch (error) {
+        console.error('Error fetching user type:', error.message);
+        res.staus(500).send('Internal Server Error');
+    }
+};
+
+module.exports = { createProject,  getAllProjects, editProject, deleteProject, getEveryProjects, getUserType, getEveryProjectIdea, protectedRoute };

@@ -8,7 +8,9 @@ const Signup = () => {
 
   return (
     <div className="max-w-md mx-auto">
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">Signup Page</h1>
       <ToggleSwitch
+      
         component1={<OrganizationSignup />}
         component2={<MemberSignup/>}
       />
