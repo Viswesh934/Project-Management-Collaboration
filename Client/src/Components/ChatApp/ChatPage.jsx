@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { List, ListItem, Typography } from "@mui/material";
 import NavigationBar from "../Homepage/Navigationbar";
 import "../Homepage/sliding.css";
+
+
 function ChatPage() {
   axios.defaults.withCredentials = true;
   const [organizationSenders, setOrganizationSenders] = useState([]);
@@ -15,7 +17,7 @@ function ChatPage() {
 
     const fetchSenderIds = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/senderIds`);
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}senderIds`);
         setOrganizationSenders(response.data);
         fetchSenderInfo(response.data);
       } catch (error) {
@@ -32,7 +34,7 @@ function ChatPage() {
       const organizationInfoPromises = senderIds.map(async (senderId) => {
         try {
           const response = await axios.get(
-            `http://localhost:3000/org/getorganizationinfo/${senderId}`
+            `${import.meta.env.VITE_APP_URL}org/getorganizationinfo/${senderId}`
           );
           return { type: "organization", data: response.data };
         } catch (error) {
@@ -43,7 +45,7 @@ function ChatPage() {
       const memberInfoPromises = senderIds.map(async (senderId) => {
         try {
           const response = await axios.get(
-            `http://localhost:3000/mem/getmemberinfo/${senderId}`
+            `${import.meta.env.VITE_APP_URL}mem/getmemberinfo/${senderId}`
           );
           return { type: "member", data: response.data };
         } catch (error) {

@@ -19,7 +19,7 @@ const MemberLogin = () => {
   };
   async function fetchUserId() {
     try {
-      const response = await axios.get("http://localhost:3000/userId", {
+      const response = await axios.get(`${import.meta.env.VITE_APP_URL}userId`, {
         withCredentials: true // Send cookies with the request
       });
       console.log("User ID:", response.data.userId);

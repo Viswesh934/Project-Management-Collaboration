@@ -17,7 +17,7 @@ function ProjectsList() {
     const fetchProjects = async () => {
       try {
 
-        const response = await axios.get("http://localhost:3000/everyproject");
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}everyproject`);
         setProjects(response.data);
       } catch (error) {
         console.error("Error fetching projects:", error);
@@ -33,7 +33,7 @@ function ProjectsList() {
       for (const project of projects) {
         const organizationId = project.organizationId;
         const info = await axios.get(
-          `http://localhost:3000/org/getorganizationinfo/${organizationId}`
+          `${import.meta.env.VITE_APP_URL}org/getorganizationinfo/${organizationId}`
         );
         if (!groupedProjects[organizationId]) {
           groupedProjects[organizationId] = {

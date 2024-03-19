@@ -4,8 +4,7 @@ import { AllProjects } from './AllProjects'
 import { AllProjectsIdeas } from './AllProjectIdeas'
 import Functionalites from './Functionalities'
 import MemberBenefits from './MemberBenefits'
-import CallToAction from './CallToAction'
-
+import StaticContent from './CallToAction'
 
 
 const HomePage = () => {
@@ -16,7 +15,7 @@ const HomePage = () => {
       <AllProjectsIdeas />
       <Functionalites />
       <MemberBenefits />
-      <CallToAction /> 
+      <StaticContent /> 
     </div> 
   )
 }

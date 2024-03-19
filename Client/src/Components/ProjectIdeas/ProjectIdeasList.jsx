@@ -14,7 +14,7 @@ function ProjectIdeasList() {
     const fetchProjectIdeas = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/everyprojectidea"
+        `${import.meta.env.VITE_APP_URL}everyprojectidea`
         );
         setProjectIdeas(response.data);
       } catch (error) {
@@ -70,14 +70,14 @@ function ProjectIdeasList() {
                 if (projectIdea.memberId) {
                   console.log("Member ID:", id); // Log member ID
                   const response = await axios.get(
-                    `http://localhost:3000/mem/getmemberinfo/${id}`
+                    `${import.meta.env.VITE_APP_URL}mem/getmemberinfo/${id}`
                   );
                   console.log("Member Info Response:", response.data); // Log member info response
                   name = `${response.data.name}'s Project Ideas`;
                   break; // Exit loop once memberId is found
                 } else {
                   const response = await axios.get(
-                    `http://localhost:3000/org/getorganizationinfo/${id}`
+                    `${import.meta.env.VITE_APP_URL}org/getorganizationinfo/${id}`
                   );
                   name = `${response.data.name}'s Organization Project Ideas`;
                   break; // Exit loop once organizationId is found

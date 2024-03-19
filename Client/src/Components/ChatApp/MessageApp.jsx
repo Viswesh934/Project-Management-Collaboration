@@ -18,7 +18,7 @@ function MessageApp() {
     // Fetch messages based on sender, receiver, and timestamp
     const fetchMessages = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/mes/${userToChatId}`);
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}mes/${userToChatId}`);
         setMessages(response.data); // Set fetched messages to state
       } catch (error) {
         console.error("Error fetching messages:", error);
@@ -28,13 +28,13 @@ function MessageApp() {
     // Fetch user ID and connect socket
     const fetchUserIdAndConnectSocket = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/userId", {
+        const response = await axios.get(`${import.meta.env.VITE_APP_URL}userId`, {
           withCredentials: true // Send cookies with the request
         });
         setUserId(response.data.userId);
 
         // Establish socket connection after setting userId
-        const newSocket = io("http://localhost:3000", {
+        const newSocket = io(`${import.meta.env.VITE_APP_URL}`, {
           transports: ["websocket", "polling", "flashsocket"],
           auth: {
             userId: response.data.userId
@@ -79,7 +79,7 @@ function MessageApp() {
           message: newMessage
         };
         await axios.post(
-          `http://localhost:3000/send/${organizationId}`,
+          `${import.meta.env.VITE_APP_URL}send/${organizationId}`,
           data
         );
 

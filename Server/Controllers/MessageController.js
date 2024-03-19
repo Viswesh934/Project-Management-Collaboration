@@ -12,7 +12,7 @@ const sendMessage = async function(req, res) {
 		var message = req.body.message;
 		var receiverId = req.params.id;
 		var token = req.cookies.jwt;
-		var senderId = jwt.verify(token, 'jab').id;
+		var senderId = jwt.verify(token, process.env.TOKEN).id;
 
 		var conversation = await Conversation.findOne({
 			participants: { $all: [senderId, receiverId] }
@@ -52,7 +52,7 @@ const getMessages = async function(req, res) {
 	try {
 		var userToChatId = req.params.id;
 		var token = req.cookies.jwt;
-		var senderId = jwt.verify(token, 'jab').id;
+		var senderId = jwt.verify(token, process.env.TOKEN).id;
 
 		var conversation = await Conversation.findOne({
 			participants: { $all: [senderId, userToChatId] }
@@ -72,7 +72,7 @@ const getAllSenderIds = async (req, res) => {
     try {
         const jwt1 = require("jsonwebtoken");
         const token = req.cookies.jwt;
-        const decoded = jwt1.verify(token, 'jab');
+        const decoded = jwt1.verify(token, process.env.TOKEN);
         const senderId = decoded.id;
         
         const messages = await Message.find({ receiverId: senderId });
@@ -101,7 +101,7 @@ const getOrgId=async function(req,res){
 	try{
 		console.log('hi');
 		const token=req.cookies.jwt;
-		const decoded=jwt.verify(token,'jab');
+		const decoded=jwt.verify(token,process.env.TOKEN);
 		res.status(200).json({userId:decoded.id});
 	}
 	catch(error){

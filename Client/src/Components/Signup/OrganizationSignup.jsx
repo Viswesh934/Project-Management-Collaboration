@@ -16,7 +16,7 @@ const OrganizationSignup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/org/signup', {
+      const response = await fetch(`${import.meta.env.VITE_APP_URL}org/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
