@@ -99,7 +99,7 @@ const MemberProfile = () => {
         <div>
           <EditableField label="Name" value={formData.name} name="name" onChange={handleInputChange} />
           <EditableField label="Email" value={formData.email} name="email" onChange={handleInputChange} />
-          <EditableField label="Skills" value={formData.skills.join(", ")} name="skills" onChange={handleInputChange} />
+          <EditableField label="Skills" value={formData.skills} name="skills" onChange={handleInputChange} />
           <EditableField label="Contact" value={formData.contact} name="contact" onChange={handleInputChange} />
           <EditableField label="Interests" value={formData.interests} name="interests" onChange={handleInputChange} />
           <EditableField label="Twitter" value={formData.twitter} name="twitter" onChange={handleInputChange} />
@@ -125,7 +125,7 @@ const MemberProfile = () => {
         <div>
           <DisplayField label="Name" value={formData.name} />
           <DisplayField label="Email" value={formData.email} />
-          <DisplayField label="Skills" value={formData.skills.join(", ")} />
+          <DisplayField label="Skills" value={formData.skills} />
           <DisplayField label="Contact" value={formData.contact} />
           <DisplayField label="Interests" value={formData.interests} />
           <DisplayField label="Twitter" value={formData.twitter} />
