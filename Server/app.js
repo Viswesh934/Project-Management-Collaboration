@@ -5,7 +5,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const http = require('http');
 const { Server } = require("socket.io");
-
+const promClient = require('prom-client');
 const app = express();
 const server = http.createServer(app);
 
@@ -16,6 +16,36 @@ const io = new Server(server, {
     credentials: true,
   }
 });
+
+// Prometheus metrics
+const promRegistry = new promClient.Registry();
+promClient.collectDefaultMetrics({ register: promRegistry });
+
+const httpRequestDuration = new promClient.Histogram({
+  name: 'http_request_duration_seconds',
+  help: 'Duration of HTTP requests in seconds',
+  labelNames: ['route', 'method'],
+  registers: [promRegistry]
+});
+
+const httpRequestTotal = new promClient.Counter({
+  name: 'http_requests_total',
+  help: 'Total number of HTTP requests',
+  labelNames: ['route', 'method', 'status'],
+  registers: [promRegistry]
+});
+
+// Middleware to track HTTP request duration and count
+app.use((req, res, next) => {
+  const end = httpRequestDuration.startTimer();
+  const route = req.originalUrl || req.url; // Use originalUrl or url to get the route
+  res.on('finish', () => {
+    end({ route: route, method: req.method });
+    httpRequestTotal.labels(route, req.method, res.statusCode).inc();
+  });
+  next();
+});
+
 
 // Import your routes here
 const memberroutes = require('./routes/memberroutes');
@@ -88,6 +118,15 @@ app.get('/onlineUsers', (req, res) => {
   res.json(onlineUsers);
 });
 
+
+app.get('/metrics', async (req, res) => {
+  try {
+    res.set('Content-Type', promRegistry.contentType);
+    res.end(await promRegistry.metrics());
+  } catch (ex) {
+    res.status(500).end(ex);
+  }
+});
 
 server.listen(3000, () => {
   console.log('Server is running on port 3000');
