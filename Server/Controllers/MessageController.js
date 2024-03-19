@@ -94,11 +94,6 @@ const getAllSenderIds = async (req, res) => {
     }
 };
 
-module.exports = getAllSenderIds;
-
-
-module.exports = getAllSenderIds;
-
 
 
 

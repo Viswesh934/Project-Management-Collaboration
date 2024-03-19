@@ -21,6 +21,8 @@ const memberroutes = require('./routes/memberroutes');
 const organizationroutes = require('./routes/organizationroutes');
 const projectroutes = require('./routes/project');
 const messageroutes = require('./routes/messageroutes');
+const AiRoutes = require('./routes/Airoutes');
+
 
 // Middleware
 app.use(cors({
@@ -34,6 +36,7 @@ app.use(memberroutes);
 app.use(organizationroutes);
 app.use(projectroutes);
 app.use(messageroutes);
+app.use(AiRoutes);
 
 // Mapping of user ID to socket ID
 const onlineUsers = {};
