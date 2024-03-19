@@ -32,16 +32,14 @@ const NewsFeed = () => {
       title: 'New Study on Nutrition',
       description: 'Researchers reveal findings from a groundbreaking study on nutrition and health.',
     },
-    
   ];
 
   return (
-    <div className="container mx-auto mt-1">
-      <h2 className="text-3xl font-bold mb-4">News Feed</h2>
-      {/* Render news sections */}
-      <div className="flex overflow-x-auto">
+    <div className="container mx-auto mt-8">
+      <h2 className="text-3xl font-bold mb-4 text-center">News Feed</h2>
+      <div className="flex flex-wrap justify-center">
         {news.map((item) => (
-          <div key={item.id} className="max-w-sm rounded overflow-hidden shadow-lg mx-4">
+          <div key={item.id} className="max-w-sm rounded overflow-hidden shadow-lg m-4">
             <div className="px-6 py-4">
               <div className="font-bold text-xl mb-2">{item.title}</div>
               <p className="text-gray-700 text-base">{item.description}</p>

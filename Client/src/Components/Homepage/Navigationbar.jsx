@@ -2,13 +2,16 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios"; // Assuming you have axios installed
 import Logout from "../Login/Logout";
-import * as jwt_decode from "jwt-decode"; // Import jwt-decode library to decode JWT tokens
+import { AccountCircle, Dashboard } from "@mui/icons-material";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 const NavigationBar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userType, setUserType] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -44,113 +47,120 @@ const NavigationBar = () => {
     return cookieValue ? cookieValue.pop() : null;
   };
 
-  const handleDropdownClick = () => {
-    setShowDropdown(!showDropdown);
+  const handleDropdownClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   const handleLogout = () => {
     // Logic for logout
     setIsLoggedIn(false);
-    setShowDropdown(false);
+    handleClose();
     // Clear the token from cookies
   };
+
   return (
-    <div className="bg-white border-b border-gray-200 h-16 flex items-center justify-between">
-      <div className="ml-8">
-        <Link to="/" className="text-gray-800 text-xl font-bold">
+    <div className="bg-gray-800 text-white">
+      <div className="container mx-auto flex items-center justify-between py-4">
+        <Link to="/" className="text-2xl font-bold">
           CoLab Pro
         </Link>
-      </div>
-      <div className="flex items-center">
-        <div className="mr-4">
-          <Link
-            to="/projects"
-            className="text-gray-800 hover:text-gray-700 font-bold"
-          >
-            Projects
-          </Link>
-        </div>
-        <div className="mr-4">
-          <Link
-            to="/projectideas"
-            className="text-gray-800 hover:text-gray-700 font-bold"
-          >
-            Project Ideas
-          </Link>
-        </div>
-        <div className="mr-4">
-          <Link
-            to="/community"
-            className="text-gray-800 hover:text-gray-700 font-bold"
-          >
-            Community
-          </Link>
-        </div>
-        <div className="mr-4">
-          <Link
-            to="/contactus"
-            className="text-gray-800 hover:text-gray-700 font-bold"
-          >
-            Contact Us
-          </Link>
-        </div>
-        <div className="mr-4">
-          <Link
-            to="/resources"
-            className="text-gray-800 hover:text-gray-700 font-bold"
-          >
-            Resources
-          </Link>
-        </div>
-        <div className="mr-4">
-          <Link
-            to="/chat"
-            className="text-gray-800 hover:text-gray-700 font-bold"
-          >
-            Chat
-          </Link>
-        </div>
-        <div className="relative" ref={dropdownRef}>
-          <button
-            onClick={handleDropdownClick}
-            className="text-gray-800 hover:text-gray-700 font-bold focus:outline-none"
-          >
-            {isLoggedIn ? "Dashboard" : "Profile"}
-            <svg
-              className="fill-current h-4 w-4 ml-1"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
+        <div className="flex items-center">
+          <div className="mr-4">
+            <Link
+              to="/projects"
+              className="hover:text-gray-300 transition duration-300"
             >
-              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 8.586 9.414 9.293 8l4.657 4.657H3.343z" />
-            </svg>
-          </button>
-          {showDropdown && (
-            <ul className="absolute right-0 mt-2 origin-top-right bg-white border border-gray-200 rounded shadow-lg z-10">
+              Projects
+            </Link>
+          </div>
+          <div className="mr-4">
+            <Link
+              to="/projectideas"
+              className="hover:text-gray-300 transition duration-300"
+            >
+              Project Ideas
+            </Link>
+          </div>
+          <div className="mr-4">
+            <Link
+              to="/community"
+              className="hover:text-gray-300 transition duration-300"
+            >
+              Community
+            </Link>
+          </div>
+          <div className="mr-4">
+            <Link
+              to="/contactus"
+              className="hover:text-gray-300 transition duration-300"
+            >
+              Contact Us
+            </Link>
+          </div>
+          <div className="mr-4">
+            <Link
+              to="/resources"
+              className="hover:text-gray-300 transition duration-300"
+            >
+              Resources
+            </Link>
+          </div>
+          <div className="mr-4">
+            <Link
+              to="/chat"
+              className="hover:text-gray-300 transition duration-300"
+            >
+              Chat
+            </Link>
+          </div>
+          <div className="relative">
+            <IconButton
+              onClick={handleDropdownClick}
+              aria-haspopup="true"
+              aria-controls="navbar-menu"
+              color="inherit"
+            >
+              {isLoggedIn ? <Dashboard /> : <AccountCircle />}
+            </IconButton>
+            <Menu
+              id="navbar-menu"
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              getContentAnchorEl={null}
+            >
               {isLoggedIn &&
               (userType === "organization" || userType === "member") ? (
-                <div>
-                  <li className="px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
+                <>
+                  <MenuItem onClick={handleClose}>
                     <Link to="/dashboard">Dashboard</Link>
-                  </li>
-                  <li
-                    className="px-4 py-2 text-sm text-gray-800 hover:bg-gray-100"
-                    onClick={handleLogout}
-                  >
-                    <Logout />
-                  </li>
-                </div>
+                  </MenuItem>
+                  <MenuItem onClick={handleLogout}><Logout /></MenuItem>
+                </>
               ) : (
-                <div>
-                  <li className="px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
+                <>
+                  <MenuItem onClick={handleClose}>
                     <Link to="/login">Login</Link>
-                  </li>
-                  <li className="px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
                     <Link to="/signup">Signup</Link>
-                  </li>
-                </div>
+                  </MenuItem>
+                </>
               )}
-            </ul>
-          )}
+            </Menu>
+          </div>
         </div>
       </div>
     </div>

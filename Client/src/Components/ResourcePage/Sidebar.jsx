@@ -4,7 +4,7 @@ import React from 'react';
 const Sidebar = ({ onSelect, selected }) => {
   return (
     <div className="bg-gray-800 text-white w-64 flex flex-col h-screen">
-      <div className="p-4 bg-gray-900">
+      <div className="p-4 bg-gray-800">
         <h2 className="text-2xl font-bold">Menu</h2>
       </div>
       <ul className="flex-1 overflow-y-auto">

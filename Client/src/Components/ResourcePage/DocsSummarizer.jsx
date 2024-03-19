@@ -1,4 +1,3 @@
-// DocsSummarizer.js
 import React from 'react';
 import TechnologyCard from './TechnologyCard';
 
@@ -44,7 +43,7 @@ const DocsSummarizer = () => {
   ];
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold text-center mt-8 mb-12 text-gray-800">Discover Technologies</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {technologies.map((technology, index) => (
@@ -53,6 +52,7 @@ const DocsSummarizer = () => {
             name={technology.name}
             description={technology.description}
             imageUrl={technology.imageUrl}
+            className="rounded-lg shadow-md p-4 bg-white"
           />
         ))}
       </div>

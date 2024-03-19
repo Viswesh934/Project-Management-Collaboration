@@ -7,6 +7,7 @@ var getReceiverSocketId = socketFunctions.getReceiverSocketId;
 var io = socketFunctions.io;
 
 const sendMessage = async function(req, res) {
+
 	try {
 		var message = req.body.message;
 		var receiverId = req.params.id;

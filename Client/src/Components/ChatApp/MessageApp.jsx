@@ -92,35 +92,48 @@ function MessageApp() {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto">
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={`p-2 rounded-md ${
-              message.senderId === organizationId
-                ? "bg-blue-100 text-left"
-                : "bg-gray-100 text-right"
-            }`}
-          >
-            <p className="text-xs text-gray-500">{}</p>
-            <p>{message.message}</p>
-            <p className="text-xs text-gray-500">{message.createdAt}</p>
+    <div className="bg-gray-100">
+      <header className="container mx-auto px-4 py-8">
+        <h1 className="text-4xl font-bold text-gray-800">Message App</h1>
+      </header>
+
+      <main className="container mx-auto px-4 py-12">
+        <section className="mb-12 bg-white rounded-lg shadow-md">
+          <div className="px-8 py-8">
+            <h2 className="text-3xl font-bold mb-4">Chat</h2>
+            <div className="flex flex-col space-y-4">
+              <div className="flex flex-col space-y-2">
+                {messages.map((message, index) => (
+                  <div
+                    key={index}
+                    className={`p-2 rounded-md ${
+                      message.senderId === organizationId
+                        ? "bg-blue-100 text-left"
+                        : "bg-gray-100 text-right"
+                    }`}
+                  >
+                    <p className="text-xs text-gray-500">{}</p>
+                    <p>{message.message}</p>
+                    <p className="text-xs text-gray-500">{message.createdAt}</p>
+                  </div>
+                ))}
+              </div>
+              <form onSubmit={handleSendMessage} className="flex items-center space-x-4">
+                <input
+                  type="text"
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  placeholder="Enter message..."
+                  className="border border-gray-300 rounded-md py-2 px-4 flex-1 focus:outline-none focus:border-blue-500"
+                />
+                <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md">
+                  Send
+                </button>
+              </form>
+            </div>
           </div>
-        ))}
-      </div>
-      <form onSubmit={handleSendMessage} className="flex items-center p-2">
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Enter message..."
-          className="flex-1 border rounded-md p-2 mr-2"
-        />
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
-          Send
-        </button>
-      </form>
+        </section>
+      </main>
     </div>
   );
 }
