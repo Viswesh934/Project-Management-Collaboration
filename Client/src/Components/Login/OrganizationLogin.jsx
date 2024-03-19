@@ -34,7 +34,7 @@ const OrganizationLogin = () => {
       setUserId(response.data.userId);
 
       // Establish socket connection after setting userId
-      const newSocket = io("http://localhost:3000", {
+      const newSocket = io(`${import.meta.env.VITE_APP_URL}`, {
         transports: ["websocket", "polling", "flashsocket"],
         auth: {
           userId: response.data.userId

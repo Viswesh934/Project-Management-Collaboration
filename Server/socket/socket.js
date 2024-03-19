@@ -7,7 +7,7 @@ var app = express();
 var server = http.createServer(app);
 var io = new Server(server, {
   cors: {
-    origin: ["http://localhost:3000"],
+    origin: ["${import.meta.env.VITE_APP_URL}"],
     methods: ["GET", "POST"],
     credentials: true,
   }
@@ -24,7 +24,7 @@ io.on('connection', (socket) => {
     io.emit('newMessage', message); // Broadcast message to all clients
   });
 });
-io.listen(5173);
+io.listen(5000);
 module.exports = {
   app: app,
   io: io,
