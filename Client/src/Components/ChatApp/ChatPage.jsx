@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { List, ListItem, Typography } from "@mui/material";
-import NavigationBar from "../Homepage/Navigationbar";
 import "../Homepage/sliding.css";
 
 
