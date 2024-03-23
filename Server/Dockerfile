@@ -15,3 +15,6 @@ COPY . .
 
 # Expose the port on which your backend application runs
 EXPOSE 3000
+
+# Command to start the development server
+CMD ["npm", "run", "start"]
