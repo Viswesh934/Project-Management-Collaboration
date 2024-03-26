@@ -19,6 +19,12 @@ jobs:
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Log secrets
+        run: |
+          echo "VM_IP: $VM_IP"
+          echo "AITOKEN: $AITOKEN"
+          echo "MONGOURL: $MONGOURL"
+
       - name: Build and push Docker images
         run: |
           docker-compose build
