@@ -14,7 +14,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - TOKEN=jab
+      - TOKEN='jab'
       - MONGOURL=MONGOURL
       - AITOKEN=CLARETOKEN
       - SERVERURL=http://VM_IP:3000
