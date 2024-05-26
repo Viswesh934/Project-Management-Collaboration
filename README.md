@@ -18,11 +18,27 @@ Welcome to the GitHub repository for Project Collaboration Pro, a comprehensive 
 ### Welcome to a New Era of Project Management
 Traditional project management often faces challenges such as siloed communication, inefficient collaboration, and difficulty in tracking progress. Project Collaboration Pro tackles these issues head-on, providing a unified platform for organizations to streamline project ideation, management, and communication.
 
+### Project Overview
+![image](https://github.com/gyanavardhana/Project-Management-Collaboration/assets/89439095/ebf6ae56-f011-4e10-a721-d538bd1c5cd0)
+
+![image](https://github.com/gyanavardhana/Project-Management-Collaboration/assets/89439095/c6512c8d-1cf7-4962-be29-df01087bab1a)
+
+
+
 ## Key Features
 - **Centralized Project Hub**: Manage project ideas, ongoing projects, and collaboration tools in one place.
 - **Enhanced Collaboration**: Foster communication and engagement through built-in chat.
 - **Robust Security**: Implement role-based access control and data encryption for project confidentiality.
 - **DevOps Integration**: Leverage Docker and Prometheus for improved scalability and monitoring.
+
+### Member & Organization Dashboards
+![image](https://github.com/gyanavardhana/Project-Management-Collaboration/assets/89439095/52c29c7d-8940-4a91-bd8b-499d3664b240)
+
+
+### Chat Features
+![image](https://github.com/gyanavardhana/Project-Management-Collaboration/assets/89439095/764fa11b-6ba2-4be7-b7d6-bbc595822f7c)
+
+![image](https://github.com/gyanavardhana/Project-Management-Collaboration/assets/89439095/ef78b4be-55eb-4377-abf9-e248c36524e4)
 
 ## Target Audience
 ### Empowering Teams of All Sizes
@@ -30,6 +46,13 @@ Project Collaboration Pro caters to a diverse user base, including:
 - **Organizations**: Streamline project management across departments and enhance team collaboration.
 - **Project Owners**: Propose project ideas, assign tasks, and track project progress effectively.
 - **Team Members**: Collaborate on projects, participate in discussions, and stay updated on tasks.
+
+### Project Creation & Project idea Creation
+
+![image](https://github.com/gyanavardhana/Project-Management-Collaboration/assets/89439095/5b01bcfd-2631-4716-be39-bbdb33b2f63a)
+
+![image](https://github.com/gyanavardhana/Project-Management-Collaboration/assets/89439095/f8ce7041-e4d0-4023-8252-45563921e50d)
+
 
 ### Benefits for Each User Type
 - **Organizations**: Improved project success rate, increased team productivity, and better resource allocation.
@@ -61,6 +84,13 @@ Project Collaboration Pro fosters seamless communication and collaboration throu
 - **Built-in Chat**: Real-time chat functionality allows for instant messaging and quick communication among team members.
 - **Notifications System**: Stay updated on project activity with real-time notifications for tasks, discussions, and mentions.
 
+### Prometheus
+![image](https://github.com/gyanavardhana/Project-Management-Collaboration/assets/89439095/2ac264f3-9fd1-42b8-81c4-f4535daff96c)
+
+### Grafana 
+![image](https://github.com/gyanavardhana/Project-Management-Collaboration/assets/89439095/7dadef79-9878-4ad1-99ba-1ebf28b8eb3c)
+
+
 ## Technology Stack
 ### Powering Collaboration and Efficiency
 Project Collaboration Pro leverages a robust technology stack to deliver a powerful and scalable platform. Key components include:
@@ -80,8 +110,7 @@ Project Collaboration Pro leverages a robust technology stack to deliver a power
 - **Efficient Development & Maintenance**: DevOps practices streamline development workflows and ensure faster deployments.
 
 ## Screenshots
-### Project Overview
-![Project Overview](screenshots/project-overview.png)
+
 
 ### Project Management
 ![Project Management](screenshots/project-management.png)
