@@ -12,8 +12,7 @@ Welcome to the GitHub repository for Project Collaboration Pro, a comprehensive 
 6. [Project Creation & Management](#project-creation--management)
 7. [Communication & Collaboration](#communication--collaboration)
 8. [Technology Stack](#technology-stack)
-9. [Conclusion](#conclusion)
-10. [Contact Us](#contact-us)
+
 
 ## Introduction
 ### Welcome to a New Era of Project Management
@@ -116,10 +115,3 @@ Project Collaboration Pro leverages a robust technology stack to deliver a power
 
 ## Conclusion
 Project Collaboration Pro represents a paradigm shift in project management, addressing longstanding challenges with innovative solutions tailored for modern organizations. By providing a centralized hub for project ideation, management, and communication, it empowers teams to collaborate effectively, driving productivity and success. The platform's integration of DevOps practices ensures scalability, reliability, and maintainability, while its robust technology stack guarantees a seamless user experience. With Project Collaboration Pro, organizations can embark on a new era of project management, where efficiency, collaboration, and innovation converge to propel projects towards success.
-
-## Contact Us
-For more information, support, or inquiries, please visit our [Contact Us](#) page.
-
----
-
-Thank you for using Project Collaboration Pro! We look forward to helping you streamline your project management processes and achieve greater success.
