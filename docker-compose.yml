@@ -2,27 +2,22 @@ version: '3.8'
 
 services:
   client:
-    image: visweshdocker/pmcclientside
+    build: visweshdocker/pmcclientside
     ports:
       - "5173:5173"
-    environment:
-      - VITE_APP_URL=http://VM_IP:3000/
+    env_file:
+      - .env
 
   server:
-    image: visweshdocker/pmcserverside
-    restart: on-failure
+    build: visweshdocker/pmcserverside
     ports:
       - "3000:3000"
     deploy:
       resources:
         limits:
           memory: 8G
-    environment:
-      - TOKEN='jab'
-      - MONGOURL=MONGOURL
-      - AITOKEN=CLARETOKEN
-      - SERVERURL=http://VM_IP:3000
-      - CLIENTURL=http://VM_IP:5173
+    env_file:
+      - .env
     restart: always
 
   prometheus:
@@ -36,9 +31,7 @@ services:
     image: grafana/grafana:7.1.5
     ports:
       - "8080:3000"
-    environment:
-      - GF_AUTH_DISABLE_LOGIN_FORM=true
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    env_file:
+      - .env
     volumes:
       - ./datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
